@@ -1,0 +1,456 @@
+/*
+	小班课旁听css主文件
+*/
+.f-left{
+	float: left;
+}
+.f-right{
+	float: right;
+}
+.mr15{
+	margin-right: 15px;
+}
+.ml10{
+	margin-left:10px;
+}
+.clearfix{
+    clear:both;
+}
+ul, ol {
+    list-style-type: none;
+}
+strong{
+    font-weight: normal;
+    font-style: normal;
+}
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset,textarea, p, blockquote, th, td {
+    margin: 0;
+    padding: 0;
+    outline: none;
+}
+html,body{
+	margin: 0px;
+    padding:0px;
+    width:100%;
+    height: 100%;
+	overflow: hidden;
+    font-size: 14px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #333;
+
+}
+#app{
+    width: 100%;
+    height: 100%;
+}
+.hello{
+    width: 100%;
+    height: 100%;
+    clear: both;
+}
+.font-opacity{
+	opacity: 0.8
+}
+
+
+/* 导航 css*/
+.nav{
+	line-height: 40px;
+	background-color: #1F167B;
+    height:40px;
+    min-width: 96%;
+    padding: 0 2%;
+    color:#fff;
+    overflow: hidden;
+    clear: both;
+}
+.nav-body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    clear: both;
+	margin: 0 auto;
+}
+.nav-right{
+    position: relative;
+}
+.nav-right span{
+	margin-left:25px;
+}
+.nav-right div{
+	margin-left:15px;
+    line-height: 20px;
+    overflow: hidden;
+    float: left;
+    margin: 10px 0 0 15px;
+    cursor: pointer;
+}
+.nav-right .menu-text-load{
+    height: 20px;
+    width: 20px;
+    padding: 0;
+    margin-top:10px; 
+    background: url(../img/loadnor.png) center center no-repeat;
+    background-size:26px 26px; 
+}
+.nav-right .menu-text-load:hover{
+    background: url(../img/loadhov.png) center center no-repeat;
+    background-size:26px 26px; 
+}
+.nav-right .menu-text-line{
+    height: 20px;
+    width: 20px;
+    overflow: hidden;
+    background: url(../img/loadchan.png) center center no-repeat;
+    background-size:16px 16px; 
+    margin-top:10px;
+    opacity: 0.8;
+}
+.nav-right .menu-text-line:hover{
+    opacity: 1;
+}
+.nav-right span:first-child{
+	width: 20px;
+    height: 20px;
+    background: #F5F5F5;
+    opacity: 0.3;
+    color: #fff;
+}
+.nav-right p{
+    position: absolute;
+    left: 27px;
+    top: 0;
+    font-size: 0.4em;
+    cursor: pointer;
+}
+.cloud{
+	background-image: url(../img/classicon.png);
+	background-repeat: no-repeat;
+	background-position: -17px -123px;
+    width: 19px;
+    height: 17px;
+}
+.cloud:hover{
+	background-image: url(../img/classicon.png);
+	background-repeat: no-repeat;
+	background-position: -17px -163px;
+    width: 19px;
+    height: 17px;
+}
+.set{
+    background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -97px -123px;
+    width: 19px;
+    height: 17px;
+}
+.set:hover{
+	 background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -97px -163px;
+    width: 19px;
+    height: 17px;
+}
+.idle-control{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -136px -123px;
+    width: 19px;
+    height: 17px;
+}
+.idle-control:hover{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -136px -163px;
+    width: 19px;
+    height: 17px;
+}
+.hello{
+    box-sizing: border-box;
+    display: flex;
+    flex-direction:column; 
+    background-color: #2B24AF;
+}
+.main{
+    position: relative;
+    left: 0;
+    z-index: 1;
+    margin: 10px;
+    box-sizing: border-box;
+    flex: 1;
+    z-index: 998;
+     transition: all .6s ease;
+     width: calc(100% - 20px);
+}
+
+.main-right{
+    position: absolute;
+    top: 195px;
+    right: 0;
+    left: calc(100% - 260px);
+    bottom: 0;
+	width: 260px;
+	background: #fff;  
+    overflow:hidden;
+}
+.chat-content{
+    padding: 10px;
+  
+
+}
+.chat-dialog-other {
+    text-align: left;
+    clear: both;
+    overflow: hidden;
+}
+.chat-content ul li{
+    word-break: break-all;
+    margin-bottom: 10px;
+    line-height: 150%;
+    position: relative;
+    overflow: hidden;
+}
+.chat-dialog-self {
+    /* border-radius: 7px; */
+    text-align: right;
+    clear: both;
+    overflow: hidden;
+}
+.chat-msg-other {
+    float: left;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.chat-msg-other img{
+    cursor: pointer;
+}
+.chat-msg-self img{
+    cursor: pointer;
+}
+.chat-msg-self {
+    background-color: #F27C19;
+    float: right;
+    padding: 5px;
+    border-radius: 3px;
+    border-top-right-radius:0; 
+    margin-bottom: 15px;
+    text-align: left;
+}
+.chat-msg-self .chat-msg{
+    color: #fff;
+}
+.chat-msg-self .chat-msg .a-href{
+    color: #fff;
+}
+.chat-dialog-other .chat-msg .a-href{
+    color: #333;
+}
+.left_triangle {
+    position: absolute;
+}
+
+.Message_name{
+    color: #888e98;
+}
+.Message_time{
+    color: #b5b7be;
+}
+.Message_type_teaching{
+    background-color:#0dcaa1;
+    padding: 2px 6px; 
+    border-radius:3px; 
+}
+.Message_type_teacher{
+    color: #fff;
+    background-color:#41a4fd;
+    padding: 2px 6px; 
+    border-radius:3px; 
+}
+.span-other{
+    position: relative;
+}
+.chat-media span:last-child{
+	margin-left:10px;
+}
+.faceChoice{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -360px -121px;
+    width: 22px;
+    height: 19px;
+    display: inline-block;
+}
+.faceChoice:hover{
+    background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -360px -153px;
+    width: 22px;
+    height: 19px;
+    display: inline-block;
+    cursor: pointer;
+}
+.imgChoice{
+    background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -395px -123px;
+    width: 20px;
+    height: 17px;
+    display: inline-block;
+}
+.imgChoice:hover{
+    background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -395px -155px;
+    width: 20px;
+    height: 17px;
+    display: inline-block;
+    cursor: pointer;
+}
+.chat-trigger .chat-content-input{
+    margin: 0;
+    padding: 0;
+	margin-left:10px;
+    width: 200px;
+    border: 1px solid #ddd;
+    height: 38px;
+    min-height: 38px;
+    max-height:38px;
+    line-height: 20px;
+    resize:none;
+    border-top-left-radius:2px;
+    border-bottom-left-radius: 2px; 
+}
+.chat-trigger .chat-send-btn{
+	height:40px;
+	background: #F27C19;
+	color: #fff;
+    border:none;
+    cursor: pointer;
+    border-top-right-radius:2px;
+    border-bottom-right-radius: 2px; 
+}
+.chat-trigger .chat-send-btn:focus{
+    outline: none;
+}
+/* 文档 底部控制栏 */
+
+.canvas-control-el .add{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -455px -8px;
+    width: 19px;
+    height: 20px;
+}
+.canvas-control-el .add:hover{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -455px -45px;
+    width: 19px;
+    height: 20px;
+}
+.canvas-control-el .reduce{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -416px -8px;
+    width: 19px;
+    height: 20px;
+}
+.canvas-control-el .reduce:hover{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -416px -45px;
+    width: 19px;
+    height: 20px;
+}
+.canvas-control-el .scale{
+	line-height: 30px;
+}
+.canvas-control-el .fullScreen{
+	background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -496px -8px;
+    width: 19px;
+    height: 23px;
+}
+.canvas-control-el .splitLine{
+	width: 1px;
+	background:#b5abab;
+	height:15px;
+	margin-top:7px;
+}
+.canvas-control-el div{
+	margin-left:10px;
+    float: right;
+}
+/* 悬浮窗 时间样式 */
+.time-top{
+    position: absolute;
+    top:0px;
+    left: 40%;
+    width: 20%;
+    height: 40px;
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+    color: #fff;
+    z-index: 1;
+    font-family:MicrosoftYaHei;
+}
+.confirmgrowl {
+    width: 360px;
+	height: auto;
+	background: #fff;
+	border-radius: 5px;
+	z-index: 999;
+    position: absolute;
+    left: 50%;
+    top: 40px;
+    margin-left: -180px;
+    background: #F39C12;
+}
+.confirmgrowl .content-poi{
+    box-sizing: border-box;
+    position: relative;
+    height: 100%;
+    width: 100%;
+    padding: 10px 20px;
+    color: #fff;
+}
+.confirmgrowl .off-confirm {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    /* background-image: url(../img/classicon.png);
+    background-repeat: no-repeat;
+    background-position: -45px -340px; */
+    width: 20px;
+    height: 20px;  
+    text-align: center;
+    line-height: 20px; 
+}
+.confirmgrowl .off-confirm:hover{
+    opacity: 0.8;
+    cursor: pointer;
+}
+.confirmgrowl .confirmgrowl-title{
+    font-size: 16px;
+    line-height: 20px;
+    padding-left: 24px;
+    background-image: url(../img/warning.png);
+    background-size:16px 16px; 
+    background-repeat: no-repeat;
+}
+.confirmgrowl .confirmgrowl-content{
+    margin:5px 0 0 0; 
+    line-height: 24px;
+}
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s
+  }
+.fade-enter, .fade-leave-to{
+    opacity: 0;
+}
