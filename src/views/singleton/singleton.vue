@@ -31,15 +31,18 @@ export default {
         icon: 'el-icon-more'
       }, {
         content: '支持vuex',
-        timestamp: '2019-03-22 14:46',
+        timestamp: '2019-03-22 14:00',
         color: '#0bbd87'
       }, {
         content: '支持axios',
-        timestamp: '2019-03-22 14:46',
+        timestamp: '2019-03-22 14:00',
         size: 'large'
       }, {
         content: '支持vue-i18n',
-        timestamp: '2019-03-22 14:46'
+        timestamp: '2019-03-22 14:00'
+      }, {
+        content: '增加404页面',
+        timestamp: '2019-04-30 10:00'
       }]
     }
   }

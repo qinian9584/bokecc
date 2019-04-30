@@ -11,8 +11,12 @@ export default new Router({
 			component: () => import('@/views/login'),
 		},
 		{
+			path: '/presenter',
+			name: 'presenter',
+			component: () => import('@/views/presenter/index'),
+		},
+		{
 			path: '/singleton/',
-			name: 'singleton',
 			component: () => import('@/views/singleton/index'),
 			children: [
 				{
@@ -36,9 +40,14 @@ export default new Router({
 			]
 		},
 		{
-			path: "/404",
-			name: "notFound",
+			path: "/401",
+			name: "Page401",
 			component:  () => import('@/views/errorPage/401'),
+		}, 
+		{
+			path: "/404",
+			name: "Page404",
+			component:  () => import('@/views/errorPage/404'),
 		}, 
 		{
 			path: "*", // 此处需特别注意置于最底部

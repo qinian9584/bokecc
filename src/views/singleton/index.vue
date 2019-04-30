@@ -38,6 +38,12 @@ export default {
           label: '国际化数据',
           url: '/singleton/lang',
         }]
+      },{
+        label: '401',
+        url: '/401',
+      },{
+        label: '404',
+        url: '/404',
       }],
       defaultProps: {
         children: 'children',

@@ -43,21 +43,25 @@ html,body{
     width: 100%;
     height: 100%;
 }
-.hello{
-    width: 100%;
-    height: 100%;
-    clear: both;
-}
 .font-opacity{
 	opacity: 0.8
 }
-
-
+.cc-container{
+    width: 100%;
+    height: 100%;
+    clear: both;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction:column; 
+    /* background-color: #2B24AF; */
+    background: url(../img/background-index.png) no-repeat center center;
+    background-size:100% 100%;  
+}
 /* 导航 css*/
 .nav{
-	line-height: 40px;
-	background-color: #1F167B;
-    height:40px;
+	line-height: 60px;
+	/* background-color: #1F167B; */
+    height:60px;
     min-width: 96%;
     padding: 0 2%;
     color:#fff;
@@ -71,6 +75,12 @@ html,body{
     clear: both;
 	margin: 0 auto;
 }
+.nav-left {
+    float: left;
+    >div{
+        font-size: 12px;
+    }
+}
 .nav-right{
     position: relative;
 }
@@ -82,14 +92,13 @@ html,body{
     line-height: 20px;
     overflow: hidden;
     float: left;
-    margin: 10px 0 0 15px;
+    margin: 20px 0 0 15px;
     cursor: pointer;
 }
 .nav-right .menu-text-load{
     height: 20px;
     width: 20px;
     padding: 0;
-    margin-top:10px; 
     background: url(../img/loadnor.png) center center no-repeat;
     background-size:26px 26px; 
 }
@@ -103,7 +112,6 @@ html,body{
     overflow: hidden;
     background: url(../img/loadchan.png) center center no-repeat;
     background-size:16px 16px; 
-    margin-top:10px;
     opacity: 0.8;
 }
 .nav-right .menu-text-line:hover{
@@ -165,12 +173,6 @@ html,body{
     width: 19px;
     height: 17px;
 }
-.hello{
-    box-sizing: border-box;
-    display: flex;
-    flex-direction:column; 
-    background-color: #2B24AF;
-}
 .main{
     position: relative;
     left: 0;
@@ -192,11 +194,11 @@ html,body{
 	width: 260px;
 	background: #fff;  
     overflow:hidden;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }
 .chat-content{
     padding: 10px;
-  
-
 }
 .chat-dialog-other {
     text-align: left;
@@ -316,26 +318,16 @@ html,body{
 	margin-left:10px;
     width: 200px;
     border: 1px solid #ddd;
-    height: 38px;
-    min-height: 38px;
-    max-height:38px;
-    line-height: 20px;
-    resize:none;
-    border-top-left-radius:2px;
-    border-bottom-left-radius: 2px; 
+    height: 30px;
 }
 .chat-trigger .chat-send-btn{
-	height:40px;
+	height:30px;
 	background: #F27C19;
 	color: #fff;
     border:none;
     cursor: pointer;
-    border-top-right-radius:2px;
-    border-bottom-right-radius: 2px; 
 }
-.chat-trigger .chat-send-btn:focus{
-    outline: none;
-}
+
 /* 文档 底部控制栏 */
 
 .canvas-control-el .add{
@@ -344,6 +336,7 @@ html,body{
     background-position: -455px -8px;
     width: 19px;
     height: 20px;
+    cursor: pointer;
 }
 .canvas-control-el .add:hover{
 	background-image: url(../img/classicon.png);
@@ -358,6 +351,7 @@ html,body{
     background-position: -416px -8px;
     width: 19px;
     height: 20px;
+    cursor: pointer;
 }
 .canvas-control-el .reduce:hover{
 	background-image: url(../img/classicon.png);
@@ -375,6 +369,7 @@ html,body{
     background-position: -496px -8px;
     width: 19px;
     height: 23px;
+    cursor: pointer;
 }
 .canvas-control-el .splitLine{
 	width: 1px;
@@ -385,72 +380,4 @@ html,body{
 .canvas-control-el div{
 	margin-left:10px;
     float: right;
-}
-/* 悬浮窗 时间样式 */
-.time-top{
-    position: absolute;
-    top:0px;
-    left: 40%;
-    width: 20%;
-    height: 40px;
-    text-align: center;
-    line-height: 40px;
-    font-size: 18px;
-    color: #fff;
-    z-index: 1;
-    font-family:MicrosoftYaHei;
-}
-.confirmgrowl {
-    width: 360px;
-	height: auto;
-	background: #fff;
-	border-radius: 5px;
-	z-index: 999;
-    position: absolute;
-    left: 50%;
-    top: 40px;
-    margin-left: -180px;
-    background: #F39C12;
-}
-.confirmgrowl .content-poi{
-    box-sizing: border-box;
-    position: relative;
-    height: 100%;
-    width: 100%;
-    padding: 10px 20px;
-    color: #fff;
-}
-.confirmgrowl .off-confirm {
-    position: absolute;
-    right: 2px;
-    top: 2px;
-    /* background-image: url(../img/classicon.png);
-    background-repeat: no-repeat;
-    background-position: -45px -340px; */
-    width: 20px;
-    height: 20px;  
-    text-align: center;
-    line-height: 20px; 
-}
-.confirmgrowl .off-confirm:hover{
-    opacity: 0.8;
-    cursor: pointer;
-}
-.confirmgrowl .confirmgrowl-title{
-    font-size: 16px;
-    line-height: 20px;
-    padding-left: 24px;
-    background-image: url(../img/warning.png);
-    background-size:16px 16px; 
-    background-repeat: no-repeat;
-}
-.confirmgrowl .confirmgrowl-content{
-    margin:5px 0 0 0; 
-    line-height: 24px;
-}
-.fade-enter-active, .fade-leave-active {
-    transition: opacity .5s
-  }
-.fade-enter, .fade-leave-to{
-    opacity: 0;
 }
