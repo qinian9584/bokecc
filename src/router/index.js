@@ -6,15 +6,21 @@ export default new Router({
 	mode: 'history', 
 	routes: [
 		{
-			path: '/',
+			path: '/login',
 			name: 'login',
 			component: () => import('@/views/login'),
 		},
 		{
 			path: '/singleton/',
 			name: 'singleton',
-			component: () => import('@/views/singleton/singleton'),
+			component: () => import('@/views/singleton/index'),
 			children: [
+				{
+					path: '/',
+					name: 'singleton',
+					component: () => import('@/views/singleton/singleton'),
+					meta: { title: 'catalog' }
+				},
 				{
 					path: 'lang',
 					name: 'lang',
@@ -33,7 +39,7 @@ export default new Router({
 			path: "/404",
 			name: "notFound",
 			component:  () => import('@/views/errorPage/401'),
-			}, 
+		}, 
 		{
 			path: "*", // 此处需特别注意置于最底部
 			redirect: "/404"

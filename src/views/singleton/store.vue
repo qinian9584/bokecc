@@ -1,9 +1,22 @@
 <template>
   <div class="hello">
     <h3>获取所有的 状态管理数据</h3>
-  	<p>{{this.$store.getters.isShow}}</p>
-  	<p>{{this.$store.state.showFooter}}</p>
-    <button @click="change">修改</button>
+  	<el-table
+      :data="tableData"
+      stripe
+      style="width: 100%">
+      <el-table-column
+        prop="key"
+        label="key"
+        width="380">
+      </el-table-column>
+      <el-table-column
+        prop="value"
+        label="value">
+      </el-table-column>
+      
+    </el-table>
+   <!-- <button @click="chan">点击</button> -->
   </div>
 </template>
 
@@ -12,32 +25,25 @@ export default {
   name: 'HelloWorld',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      tableData: []
     }
   },
-  methods:{
-    change(){
-      console.log(2)
-      this.$store.commit('show', '我是要更新的数据');
+  created() {
+    this.tableData = this.$store.getters.all
+  },
+  methods: {
+    chan(){
+      console.log('tag', '')
+      this.$store.state.showFooter =!this.$store.state.showFooter
     }
-  }
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h1, h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
+h3{
+  text-align: center;
+  color: rgb(31, 47, 61);
 }
 </style>
