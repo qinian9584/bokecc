@@ -15,8 +15,8 @@ const getters = { //实时监听state值的变化(最新状态)
 	}
 };
 const mutations = {
-	show(state) { //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
-		state.showFooter = true;
+	show(state,p) { //自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
+		state.showFooter = p;
 	},
 	hide(state) { //同上
 		state.showFooter = false;

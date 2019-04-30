@@ -16,7 +16,8 @@
     </div>
     
     
-    
+    <p>{{this.$store.getters.isShow}}</p>
+  	<p>{{this.$store.state.showFooter}}</p>
   </div>
 </template>
 
