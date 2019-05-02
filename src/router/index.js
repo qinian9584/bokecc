@@ -10,13 +10,14 @@ export default new Router({
 			name: 'login',
 			component: () => import('@/views/login'),
 		},
-		{
-			path: '/presenter',
-			name: 'presenter',
-			component: () => import('@/views/presenter/index'),
-		},
+		// {
+		// 	path: '/presenter',
+		// 	name: 'presenter',
+		// 	component: () => import('@/views/presenter/index'),
+		// },
 		{
 			path: '/singleton/',
+			name: 'catalog',
 			component: () => import('@/views/singleton/index'),
 			children: [
 				{

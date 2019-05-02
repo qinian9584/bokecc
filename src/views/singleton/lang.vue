@@ -4,7 +4,7 @@
     <button @click="chan">点击</button>
      <!-- <div>{{$t("route")}} + {{$t("route.dashboard")}}</div> -->
      
-    <el-table
+    <!-- <el-table
       :data="tableData"
       stripe
       style="width: 100%">
@@ -21,13 +21,13 @@
         prop="en"
         label="en">
       </el-table-column>
-    </el-table>
+    </el-table> -->
   </div>
 </template>
 
 <script>
 export default {
-  name: 'demo',
+  name: 'lang',
   data () {
     return {
       tableData: []

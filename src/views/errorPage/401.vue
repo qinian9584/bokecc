@@ -1,6 +1,6 @@
 <template>
   <div class="errPage-container">
-    <el-button icon="arrow-left" class="pan-back-btn" @click="back">返回</el-button>
+    <!-- <el-button icon="arrow-left" class="pan-back-btn" @click="back">返回</el-button>
     <el-row>
       <el-col :span="12">
         <h1 class="text-jumbo text-ginormous">Oops!</h1>
@@ -22,12 +22,12 @@
     </el-row>
     <el-dialog :visible.sync="dialogVisible" title="随便看">
       <img :src="ewizardClap" class="pan-img">
-    </el-dialog>
+    </el-dialog> -->
   </div>
 </template>
 
 <script>
-import errGif from '@/assets/401_images/401.gif'
+// import errGif from '@/assets/401_images/401.gif'
 
 export default {
   name: 'Page401',
