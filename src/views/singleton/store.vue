@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
     <h3>获取所有的 状态管理数据</h3>
-  	<!-- <el-table
+  	<el-table
       :data="tableData"
       stripe
       style="width: 100%">
@@ -15,8 +15,8 @@
         label="value">
       </el-table-column>
       
-    </el-table> -->
-   <!-- <button @click="chan">点击</button> -->
+    </el-table>
+   <button @click="chan">点击</button>
   </div>
 </template>
 

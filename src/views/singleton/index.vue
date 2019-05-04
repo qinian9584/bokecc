@@ -2,14 +2,14 @@
   <div class="catalog">	
     <div class="left">
       <h3>目录</h3>
-      <!-- <el-tree
+      <el-tree
         :data="data5"
         default-expand-all
         :expand-on-click-node="false">
         <span class="" slot-scope="{ node,data }">
           <router-link :to="{path:data.url}" >{{ node.label }}</router-link>
         </span>
-      </el-tree> -->
+      </el-tree>
     </div>
     <div class="right">
       <router-view></router-view>

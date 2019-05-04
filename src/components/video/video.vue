@@ -1,5 +1,5 @@
 <template>
-    <div :class="{'video-position':true,'Zposition':isShowL == true,chan:chan,positionleft:chan==true,positionright:chan==false}"  id="videoWedget" >
+    <div :class="{'video-position':true}"  id="videoWedget" >
         <div :class="{'video-wedget':true,'Zvideo':isShowL == true}">
           <!-- 直播视频模块 -->
           <div  class="video" id="videoCon">
@@ -7,9 +7,9 @@
             </div>
           </div>
         </div>
-        <div class="fix-position" v-show="!isplay">
+        <!-- <div class="fix-position" v-show="!isplay">
           <img src="../../assets/img/loading-000.png">
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -25,22 +25,7 @@ export default {
   },
   mounted: function() {
     var vue = this;
-    //加载完成
-    this.rtc.on('on_cc_live_player_init',function(){
-        // console.log('加载完成')
-        vue.isplay = true//视频直接开始播放，并不是暂停状态
-          
-    })
-
-    //监听当前时间变化
-    // this.rtc.on('PlayTime',function(data){
-      
-    //   // console.log(data)
-    //   var getPlayerTimeL = data.getPlayerTime;
-    //   if(getPlayerTimeL>0){
-    //     vue.isplay = true//视频直接开始播放，并不是暂停状态
-    //   }
-    // })
+   
   },
   methods: {
     showVideo: function(Option) {
@@ -62,13 +47,13 @@ export default {
 }
 </script>
 
-<style>
+<style scoped lang="scss">
 .video-position{
     position: absolute;
-    left: 0;
+    right: 0;
     top: 0;
-    width: 260px;
-    height: 195px;
+    width: 280px;
+    height: 160px;
     text-align: center;
     vertical-align: center;
     color: #fff;
@@ -118,9 +103,6 @@ export default {
   z-index: 1112;
     opacity: 1;
     transition: all .5s ease;
-}
-.Zposition{
-  left: calc(100% - 260px);
 }
 .chan{
   position: absolute;

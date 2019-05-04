@@ -1,7 +1,7 @@
 <template>
   <div class="main-right f-right">
     <div class="slide-show">
-      <div class="top" v-if="false">
+      <div class="top">
         <ul class="nav-ul">
           <li
             v-for="(item, index) in list"
@@ -78,6 +78,7 @@
             </div>
           </div>
           <div>2</div>
+          <div>3</div>
         </div>
       </div>
     </div>
@@ -91,7 +92,7 @@ export default {
       isShow: true,
       listinde: 0,
       acIndex: 0,
-      list: ["聊天", "成员"], //聊天选项卡,目前不需要，影藏状态
+      list: ["聊天","问答", "成员"], //聊天选项卡,目前不需要，影藏状态
       isShowIcon: false,
       inputData: "",
       chatList: [], //聊天历史记录
@@ -156,17 +157,31 @@ export default {
       }
     });
 
-    this.rtc.on("chatLogdata", function(data) {
-      //监听到 获取聊天历史数据
-      vue.chatList = []; //清空聊天数据
-      for(let i=0;i<data.length;i++){
-        if(data[i].content.substring(0, 5) == '[img_'){
-          vue.ReceiveImgChat(data[i]);
-        }else{
-          vue.showBackChatL(data[i]);
-        }
-      }
-    });
+    var data = [{
+        time:'15:33',
+        role:10,
+        userName : "tom",
+        content:'3333333333333',   
+      },{
+        time:'15:33',
+        role:11,
+        userName : "tony",
+        content:'3333333333333',   
+      },];
+    // var data = {"userid":"b7612b3e1f4d404b998aed429334f51e","username":"111","userrole":"presenter","useravatar":"","msg":"rrrrrrrrrrrrr ","time":"23:44:11","message_from":"class","status":"0","chatId":"5CB83D37071F14049C33DC5901307461_b7612b3e1f4d404b998aed429334f51e_1556898251719"};
+    this.showBackChatL(data[0]);
+    this.showBackChatL(data[1]);
+    // this.rtc.on("chatLogdata", function(data) {
+    //   //监听到 获取聊天历史数据
+    //   vue.chatList = []; //清空聊天数据
+    //   for(let i=0;i<data.length;i++){
+    //     if(data[i].content.substring(0, 5) == '[img_'){
+    //       vue.ReceiveImgChat(data[i]);
+    //     }else{
+    //       vue.showBackChatL(data[i]);
+    //     }
+    //   }
+    // });
   },
   methods: {
     goto(index) {
@@ -174,7 +189,7 @@ export default {
       this.acIndex = index;
       console.log(index);
       let domChat = document.querySelectorAll(".chat-concen-nav")[0];
-      domChat.style.left = -index * 260 + "px";
+      domChat.style.left = -index * 280 + "px";
     },
     emj(index) {
       //选择图标，加入输入框
@@ -197,13 +212,13 @@ export default {
       const datalist = this.chatData;
       
       // console.log(Nowtime,'聊天组件收到时间')
-      // console.log(this.chatList)
+      console.log(data)
       // 计算消息发送时间
       // let sumTime= new Date(startTime + Number(datalist[i].time)*1000);
       // let getMinute = sumTime.getMinutes()<10?'0'+sumTime.getMinutes():sumTime.getMinutes();
       // let gethoustime = sumTime.getHours() + ":" + getMinute;
       var datalistL = {};
-      datalistL.time = " ";
+      datalistL.time = data.time;
       datalistL.userName = data.userName;
       // 计算人员身份
       if (data.role == 10) {
@@ -220,7 +235,7 @@ export default {
       // if(datalist[i].userId == joinData.encryptUserId){
       //   datalist[i].ISme = true;
       // }else{
-      datalistL.ISme = false;
+      // datalistL.ISme = false;
       // }
 
       vue.chatList.push(datalistL);
@@ -292,6 +307,7 @@ export default {
       }
     },
     ExtData: function(str) {
+      console.log('tag', str)
       var er = str.match(/\[em2_([0-9]*)\]/g);
       if (er) {
         for (var i in er) {
@@ -310,8 +326,9 @@ export default {
       }
 
       var nmsg = "";
-      $.each(str.split(" "), function(i, n) {
-        n = $.trim(n);
+      var arr = str.split(" ");
+      for(var i=0; i<arr.length;i++){
+        var n = arr[i].replace(/^\s*|\s*$/g,"");
         if (
           n.indexOf("[uri_") == 0 &&
           n.indexOf("]") == n.length - 1 &&
@@ -328,8 +345,28 @@ export default {
         } else {
           nmsg += n + " ";
         }
-      });
+      }
 
+      // $.each(str.split(" "), function(i, n) {
+      //   n = $.trim(n);
+      //   if (
+      //     n.indexOf("[uri_") == 0 &&
+      //     n.indexOf("]") == n.length - 1 &&
+      //     n.length > 6
+      //   ) {
+      //     var u = n.substring(5, n.length - 1) + " ";
+      //     nmsg +=
+      //       '<a target="_blank" class="a-href"  href="' +
+      //       u +
+      //       '">' +
+      //       u +
+      //       "</a>" +
+      //       " ";
+      //   } else {
+      //     nmsg += n + " ";
+      //   }
+      // });
+      console.log(nmsg)
       return nmsg;
     },
     imgFile: function() {
@@ -365,6 +402,17 @@ export default {
 </script>
 
 <style scoped>
+.main-right {
+    position: absolute;
+    top: 160px;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    background: #fff;
+    overflow: hidden;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+}
 ::-webkit-scrollbar-track-piece {
   width: 0px;
   background-color: #fff;
@@ -405,11 +453,11 @@ export default {
   flex-direction: column;
 }
 .top {
-  height: 30px;
   width: 100%;
 }
 .nav-ul {
-  height: 30px;
+  line-height: 35px;
+  height: 35px;
   width: 100%;
   overflow: hidden;
   display: flex;
@@ -420,10 +468,11 @@ export default {
   flex: 1;
   list-style: none;
   text-align: center;
-  line-height: 30px;
+  background: #F1F1F2;
+  cursor: pointer;
 }
 .nav-ul .active {
-  background: powderblue;
+  background: #fff;
 }
 .chat-par {
   width: 100%;
@@ -443,7 +492,7 @@ export default {
 }
 .chat-concen-nav > div {
   height: 100%;
-  width: 260px;
+  width: 280px;
   float: left;
 }
 .chat-concen-nav > div:nth-child(1) {
@@ -515,5 +564,89 @@ export default {
   width: 20px;
   height: 20px;
   cursor: pointer;
+}
+.chat-dialog-other {
+    text-align: left;
+    clear: both;
+    overflow: hidden;
+}
+.chat-content {
+    padding: 10px;
+    font-size: 12px;
+
+}
+.chat-content ul{
+  padding:0;
+  margin: 0;
+}
+.chat-content ul li{
+    word-break: break-all;
+    margin-bottom: 10px;
+    line-height: 150%;
+    position: relative;
+    overflow: hidden;
+}
+.chat-dialog-self {
+    /* border-radius: 7px; */
+    text-align: right;
+    clear: both;
+    overflow: hidden;
+}
+.chat-msg-other {
+    float: left;
+    background-color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    border-top-left-radius: 0;
+    margin-bottom: 15px;
+    text-align: left;
+}
+.chat-msg-other img{
+    cursor: pointer;
+}
+.chat-msg-self img{
+    cursor: pointer;
+}
+.chat-msg-self {
+    background-color: #F27C19;
+    float: right;
+    padding: 5px;
+    border-radius: 3px;
+    border-top-right-radius:0; 
+    margin-bottom: 15px;
+    text-align: left;
+}
+.chat-msg-self .chat-msg{
+    color: #fff;
+}
+.chat-msg-self .chat-msg .a-href{
+    color: #fff;
+}
+.chat-dialog-other .chat-msg .a-href{
+    color: #333;
+}
+.left_triangle {
+    position: absolute;
+}
+
+.Message_name{
+    color: #333333;
+}
+.Message_time{
+    color: #BBBBBB;
+    font-weight: 100;
+}
+.Message_type_teaching{
+    background-color:#0dcaa1;
+    padding: 2px 6px; 
+    border-radius:3px; 
+}
+.Message_type_teacher{
+    color: #fff;
+    background-color:#41a4fd;
+    padding: 2px 6px; 
+    border-radius:3px; 
+    font-weight: 100;
+    font-size: 14px;
 }
 </style>
