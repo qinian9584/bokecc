@@ -63,25 +63,21 @@
 		created: function(){	
 			const roomid = this.$route.query.roomid;
 			let vue =this;
-			// $.ajax({
-			// 	url: "https://ccapi.csslcloud.net/api/room/room_desc",
-			// 	type: "GET",
-			// 	dataType: "json",
-			// 	data: {
-			// 		roomid: roomid
-			// 	},
-			// 	success: function(data) {
-			// 		if(data.result === 'OK') {	
+			
 
-			// 			vue.title = data.data.name;
-			// 			vue.desc = data.data.desc;
-			// 			document.title = data.data.name;
-			// 		}
-			// 	}
-			// });
 		},
 		mounted: function() {
 			window.vue = this;
+			this.axios({
+				method: 'get',
+				url: 'https://ccapi.csslcloud.net/api/v1/serve/room/token/create'
+			})
+			.then(function (response) {
+				console.log(response)
+			})
+			.catch(function (error) {
+				console.log(error)
+			})
 		},
 		methods:  {
 			logoin: function () {
