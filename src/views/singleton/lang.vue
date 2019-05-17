@@ -1,9 +1,6 @@
 <template>
   <div class="demo">	
-    <h3>获取所有的 翻译数据</h3>
-    <button @click="chan">点击</button>
-     <!-- <div>{{$t("route")}} + {{$t("route.dashboard")}}</div> -->
-     
+    <h3>{{$t("singleton.Getall")}}{{$t("singleton.translationdata")}}</h3>
     <el-table
       :data="tableData"
       stripe
@@ -11,7 +8,7 @@
       <el-table-column
         prop="key"
         label="Abbreviation"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="zh"
@@ -22,6 +19,12 @@
         label="en">
       </el-table-column>
     </el-table>
+
+    <!-- <div> {{$t("route.Classroom")}}</div> -->
+    <div class="changes">
+      <el-button type="primary" @click="changeLanguage">切换语言</el-button>
+      <span>{{this.$i18n.locale}}</span>
+    </div>
   </div>
 </template>
 
@@ -36,7 +39,6 @@ export default {
   created() {
     const lang = this.$i18n.messages.zh;
     const langen = this.$i18n.messages.en;
-       
 			for (let [key, value] of Object.entries(lang)) {				
 				for (let [l, k] of Object.entries(value)) {				
           let en = '';
@@ -54,9 +56,13 @@ export default {
 			}
   },
   methods: {
-    chan(){
-      console.log('tag', '')
-      this.$i18n.locale = 'en'
+    changeLanguage(){
+      //切换中英文
+      const language= localStorage.getItem('language');
+      const langen = (language=='en')?'zh':'en';
+      localStorage.setItem('language',langen)
+      this.$i18n.locale = langen
+
     }
   },
 }
@@ -73,6 +79,8 @@ p {
 }
 h1, h2,h3 {
   text-align: center;
+  padding-top:30px ;
+  height: 30px;
 }
 ul {
   list-style-type: none;
@@ -84,5 +92,12 @@ li {
 }
 a {
   color: #42b983;
+}
+.changes{
+  padding: 30px 20px ;
+  text-align: center;
+  span{
+    padding: 0 0 0 20px;
+  }
 }
 </style>

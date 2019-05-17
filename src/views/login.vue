@@ -14,8 +14,7 @@
 				</div>
 			</div>
 			<!--右边登录模块-->
-			<div class="login-box  login-show">
-				
+			<div class="login-box  login-show">				
 				<h3 data-text="云课堂" class="data-text">云课堂</h3>
 				<div class="middle">
 					<div class="login-tip" v-show="loginPss">{{loginPssData}}</div>
@@ -41,18 +40,23 @@
 	</div>
 </template>
 
-<script>
-	import Vue from 'vue'
+<script>	
+	import loginapi from '@/api/login'
+	import {getCookie,setCookie} from '@/assets/js/utils'
 	export default {
 		name: 'login',
 		data() {
 			return {
-				username: '',
-				password: '',
+				username: '我是周杰伦',
+				password: '123',
 				title:'',
 				desc:'',
 				loginPss:false,//密码错误提示框
-				loginPssData:'用户名不能为空'
+				loginPssData:'用户名不能为空',
+				role:{
+					// 登录角色 0: 教师 ,1:互动者,  2:旁听者   教师角色一个房间只能有一人登陆，其他角色不限制
+					"presenter":0,					
+				}
 			}
 		},
 		beforeCreate:function() {
@@ -61,32 +65,20 @@
 			// }
 		},
 		created: function(){	
-			const roomid = this.$route.query.roomid;
-			let vue =this;
-			
-
+						
 		},
-		mounted: function() {
-			window.vue = this;
-			this.axios({
-				method: 'get',
-				url: 'https://ccapi.csslcloud.net/api/v1/serve/room/token/create'
-			})
-			.then(function (response) {
-				console.log(response)
-			})
-			.catch(function (error) {
-				console.log(error)
-			})
+		mounted: function() {									
+			
 		},
 		methods:  {
 			logoin: function () {
 				let _this =this;
-				const userid = this.$route.query.userid;
-				const roomid = this.$route.query.roomid;
+				let data = this.$route.query;				
 				const name = this.username;
 				const password= this.password;
 
+				
+				
 				if(name == ''){
 					_this.showError('账户不能为空')
 					return;
@@ -101,47 +93,77 @@
 					}
 				}
 
-				console.log(userid,roomid)
-				$.ajax({
-					url: "https://ccapi.csslcloud.net/api/v1/serve/room/token/create",
-					type: "GET",
-					dataType: "json",
-					data: {
-						userid: userid,
-						roomid: roomid,
-						name: name,
-						password: password,
-						role: 2,
-						client: "0" //登录客户端类型：0: 浏览器， 1: 移动端 （必填）
-					},
-					success: function(data) {
-						console.log(data);
-						if(data.result === 'OK') {
-							var token = data.data.token;
-							setCookie('audience', token, 1);
-							_this.$router.push({
-								path: '/check',
-								name: 'checkPage',
-								query: {
-									roomid : roomid,
-									userid: userid						
-								},
-							});
-
-						} else {
-							_this.showError('密码错误')
-						}
+				data.name = name;
+				data.password = password; 
+				data.client = 0;//客户端
+				const role = data.role;
+				
+				data.role = this.role[role];//角色
+						
+				var s=loginapi.loginByToken(data).then(function (response) {
+					console.log(response.data)					
+					const res = response.data;
+					if(res.result == 'OK'){
+						const token = 'token_'+role;						
+						setCookie(token, res.data.token, 1);
+						_this.$router.push({
+							path: `/${role}`,
+							name: ro,
+							query: {
+														
+							},
+						});
+					}else{
+						
 					}
-				});
+					
+				})
+				.catch(function (error) {
+					console.log(error)
+				})
+								
+				
+				// $.ajax({
+				// 	url: "https://ccapi.csslcloud.net/api/v1/serve/room/token/create",
+				// 	type: "GET",
+				// 	dataType: "json",
+				// 	data: {
+				// 		userid: userid,
+				// 		roomid: roomid,
+				// 		name: name,
+				// 		password: password,
+				// 		role: 2,
+				// 		client: "0" //登录客户端类型：0: 浏览器， 1: 移动端 （必填）
+				// 	},
+				// 	success: function(data) {
+				// 		console.log(data);
+				// 		if(data.result === 'OK') {
+				// 			var token = data.data.token;
+				// 			setCookie('audience', token, 1);
+				// 			_this.$router.push({
+				// 				path: '/check',
+				// 				name: 'checkPage',
+				// 				query: {
+				// 					roomid : roomid,
+				// 					userid: userid						
+				// 				},
+				// 			});
+
+				// 		} else {
+				// 			_this.showError('密码错误')
+				// 		}
+				// 	}
+				// });
 			},
 			showError(errText){
 				this.loginPssData = errText;
 				this.loginPss = true;
 				setTimeout(()=>{this.loginPss = false;},2000)
+				
 			}
 		}
 	}
-</script
+</script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>

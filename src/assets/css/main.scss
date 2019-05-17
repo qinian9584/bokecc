@@ -1,3 +1,4 @@
+@import "./mixin";/*引入配置*/
 body,dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset,textarea, p, blockquote, th, td {
     margin: 0;
     padding: 0;
@@ -12,7 +13,6 @@ html,body{
     font-size: 14px;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #333;
-
 }
 #app{
     width: 100%;
@@ -40,52 +40,57 @@ html,body{
     background-size:100% 100%;  
 }
 .nav {
-    height: 60px;
+    height: 50px;
     min-width: 96%;
-    padding: 0 2%;
+    padding: 0 10px;
     color: #fff;
     clear: both;
     font-size: 12px;
     
     .nav-body {
         position: relative;
+        display: flex;
+        align-items:center;/*垂直居中*/
         width: 100%;
         height: 100%;
+        justify-content:space-between;
         clear: both;
         margin: 0 auto;
-        text-align: center;
         .nav-left {
-            float: left;
-            margin: 10px 0;
+            margin:0;
+            height: 40px;
+            display: flex;
+            align-items:center;/*垂直居中*/
+            // justify-content: center;/*水平居中*/
             .menu-box{
                 margin:0 10px 0 0;
-                float: left;
-                height: 40px;
-                width: 40px;   
+                height: auto;
+                width: auto;  
                 font-size: 12px;
                 color: #fff;
+                >button{
+                    background: #333;
+                    border: none;
+                }
+                >button:hover{
+                    background: #999;
+                }
                 .icon{
                     height: 20px;
+                    width: 20px;
                     font-size: 18px;
+                    vertical-align: -5px;
                 }
                 p{
                     line-height: 20px;
                 }
             }
-            div:hover{
-                opacity: 0.8;
-                cursor: pointer;
-            }
+            
         }
         .nav-center{
-            position: absolute;
-            top: 15px;
-            left: 50%;
-            display: inline-block;
             line-height: 30px;
             height: 30px;
             padding: 0 5px;
-            transform:translateX(-50%);
             white-space: nowrap;
             background:rgba(0,0,0,1);
             border-radius:4px;
@@ -94,43 +99,28 @@ html,body{
             font-size: 16px;
         }
         .nav-right{
-            float: right;
+            display: flex;
+            align-items:center;/*垂直居中*/
             height: 100%;
             .icon{
-                height: 16px;
+                height: 20px;
+                width: 20px;
                 font-size: 18px;
+                vertical-align: -5px;
             }
 
             .menu-box{
-                float: left;
-                margin:15px 5px; 
-                height: 30px;
-                width: 30px;
-                line-height: 30px;
-                cursor: pointer;
+                margin:0 0 0 10px; 
             }
-            .begins{
-                width: 90px;
-                height: 34px;
-                line-height: 34px;
-                margin-top: 12px;
-                background: #F9BB27;
-                border-radius:5px; 
-                overflow: hidden;
-                
-                span{
-                    display: inline-block;
-                    height: 34px;
-                    margin-top: -10px;
+            .setpadding{
+                >button{
+                    padding: 5px;
                 }
             }
-            .change{
-                width: 36px;
-                height: 22px;
-                line-height: 22px;
-                margin-top: 19px;
-                background: #333;
-                border-radius: 3px;
+            .begins{
+                .icon{
+                    margin-right:5px; 
+                }
             }
         }
     }
@@ -146,4 +136,20 @@ html,body{
     flex: 1;
     z-index: 998;
     transition: all .6s ease;
+}
+.presenter-video-box{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 280px;
+    height: 160px;
+    text-align: center;
+    vertical-align: center;
+    color: #fff;
+    line-height: 195px;
+    border-radius: 5px;
+    z-index:0;
+    border-top-left-radius: 6px;
+    border-top-right-radius:6px;
+    overflow: hidden; 
 }

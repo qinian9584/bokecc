@@ -48,7 +48,7 @@
                 </div>
               </div>
             </div>
-            <div class="chat-send" v-show="false">
+            <div class="chat-send">
               <div class="chat-media">
                 <div class="faceChoice" id="faceChoice" @click="isIcon()"></div>
                 <div class="imgChoice ml10">
@@ -56,12 +56,14 @@
                 </div>
               </div>
               <div class="chat-trigger clearfix">
-                <input
-                  type="text"
-                  class="chat-content-input"
-                  v-model="inputData"
-                  v-on:keyup.13="SendChat"
-                >
+                <textarea 
+                type="text" 
+                class="chat-content-input" 
+                id="chatContentInput" 
+                v-model="inputData" 
+                :disabled="!allow_chat" 
+                v-on:keyup.13="SendChat"
+                ></textarea>
                 <input type="button" value="发送" class="chat-send-btn" @click="SendChat">
               </div>
               <div class="posimg" id="posimgbox" ref="posimgbox" v-show="isShowIcon">
@@ -92,6 +94,7 @@ export default {
       isShow: true,
       listinde: 0,
       acIndex: 0,
+      allow_chat:true,//是否禁言；
       list: ["聊天","问答", "成员"], //聊天选项卡,目前不需要，影藏状态
       isShowIcon: false,
       inputData: "",
@@ -150,12 +153,12 @@ export default {
   // props:['chatList','iconList'],
   created() {
     let vue = this;
-    document.addEventListener("click", e => {
-      if (event.target.id == "faceChoice") return;
-      if (!this.$refs.posimgbox.contains(e.target)) {
-        this.isShowIcon = false;
-      }
-    });
+    // document.addEventListener("click", e => {
+    //   if (event.target.id == "faceChoice") return;
+    //   if (!this.$refs.posimgbox.contains(e.target)) {
+    //     this.isShowIcon = false;
+    //   }
+    // });
 
     var data = [{
         time:'15:33',
@@ -307,7 +310,7 @@ export default {
       }
     },
     ExtData: function(str) {
-      console.log('tag', str)
+      // console.log('tag', str)
       var er = str.match(/\[em2_([0-9]*)\]/g);
       if (er) {
         for (var i in er) {
@@ -366,7 +369,7 @@ export default {
       //     nmsg += n + " ";
       //   }
       // });
-      console.log(nmsg)
+      // console.log(nmsg)
       return nmsg;
     },
     imgFile: function() {
@@ -554,6 +557,26 @@ export default {
 .chat-trigger .chat-content-input {
   flex: 1;
   outline: none;
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  border: 1px solid #ddd;
+  height: 38px;
+  min-height: 38px;
+  max-height: 38px;
+  line-height: 20px;
+  resize: none;
+  border-top-left-radius: 2px;
+  border-bottom-left-radius: 2px;
+}
+.chat-trigger .chat-send-btn {
+    height: 40px;
+    background: #f27c19;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
 }
 .chat-media {
   padding: 10px 0;
@@ -574,6 +597,37 @@ export default {
     padding: 10px;
     font-size: 12px;
 
+}
+.faceChoice, .faceChoice:hover {
+    background-image: url(../../assets/img/index/classicon.png);
+    background-repeat: no-repeat;
+    width: 22px;
+    height: 19px;
+    display: inline-block;
+}
+.faceChoice {
+    background-position: -360px -121px;
+}
+.faceChoice:hover {
+    background-position: -360px -153px;
+    cursor: pointer;
+}
+.imgChoice, .imgChoice:hover {
+    background-image: url(../../assets/img/index/classicon.png);
+    background-repeat: no-repeat;
+    width: 20px;
+    height: 17px;
+    display: inline-block;
+}
+.ml10 {
+    margin-left: 10px;
+}
+.imgChoice {
+    background-position: -395px -123px;
+}
+.imgChoice:hover {
+    background-position: -395px -155px;
+    cursor: pointer;
 }
 .chat-content ul{
   padding:0;

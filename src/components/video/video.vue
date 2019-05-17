@@ -1,11 +1,8 @@
 <template>
-    <div :class="{'video-position':true}"  id="videoWedget" >
-        <div :class="{'video-wedget':true,'Zvideo':isShowL == true}">
+    <div class="video-position" >
+        <div class="video-wedget">
           <!-- 直播视频模块 -->
-          <div  class="video" id="videoCon">
-            <div id="presenterVideo" class="my-video">
-            </div>
-          </div>
+          
         </div>
         <!-- <div class="fix-position" v-show="!isplay">
           <img src="../../assets/img/loading-000.png">
@@ -49,20 +46,16 @@ export default {
 
 <style scoped lang="scss">
 .video-position{
-    position: absolute;
-    right: 0;
-    top: 0;
+    position: relative;
     width: 280px;
     height: 160px;
     text-align: center;
     vertical-align: center;
     color: #fff;
     line-height: 195px;
-    border-radius: 5px;
     z-index:0;
     border-top-left-radius: 6px;
     border-top-right-radius:6px;
-    overflow: hidden; 
 }
 .video-wedget{
     height: 100%;
@@ -70,59 +63,17 @@ export default {
     background: #000;
     position: relative;
 }
-.video{
-  /* height: 800px;
-  width: 800px; */
-  height: 100%;
-  width: 100%;
-}
-.my-video {
-  /* width: 260px;
-  height: 195px; */
-  height: 100%;
-  width: 100%;
-  z-index: 0;
-  display: block;
-}
-.my-video li{
-  list-style: none;
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-.my-video li video{
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		height: 100%;
-		width: 100%;
-	}
-.Zvideo{
-  z-index: 1112;
-    opacity: 1;
-    transition: all .5s ease;
-}
-.chan{
-  position: absolute;
-  right: 270px;
-  left: 0;
-  top: 0;
-  bottom: 200px;
-  z-index: 100;
-  width: auto;
-  height: auto;
-}
 .fix-position{
-  position: fixed;
-    right: 10px;
-    top: 50px;
-    width: 260px;
-    height: 195px;
-    background: #fff;
-    z-index: 1113;
-    transition: all .6s ease;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  z-index: 1113;
+  transition: all .6s ease;
+  border-top-left-radius: 6px;
+  border-top-right-radius:6px;
 }
 .fix-position img{
     transition-property: -webkit-transform;

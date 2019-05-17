@@ -4,41 +4,34 @@
     <div class="nav">
       <div class="nav-body">
         <div class="nav-left">
+          <!-- 课件库 -->
           <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#iconwendang"></use>
-            </svg>
-            <p>文档区</p>
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+              <span>课件库</span>
+            </el-button>
           </div>
+
+          <!-- 工具箱 -->
           <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#iconbaibanwhiteboard10"></use>
-            </svg>
-            <p>白板区</p>
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+              <span>工具箱</span>
+            </el-button>
           </div>
+
+          <!-- 花名册 -->
           <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#iconicontiku"></use>
-            </svg>
-            <p>课题库</p>
-          </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#iconshiti"></use>
-            </svg>
-            <p>试题库</p>
-          </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
-            <p>工具箱</p>
-          </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#iconwj-mc"></use>
-            </svg>
-            <p>花名册</p>
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+              <span>花名册</span>
+            </el-button>
           </div>
           
         </div>
@@ -49,46 +42,53 @@
             <span>01：20：22</span>
         </div>
 
+        <!-- 右侧菜单 -->
         <div class="f-right nav-right">
-          <div class="menu-box change">
+          <div class="menu-box cut-wheat">
+            <el-button type="primary" size="mini">
               <span>切麦</span>
-            </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
+            </el-button>
           </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
+          <div class="menu-box setpadding">
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+            </el-button>
           </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
+          <div class="menu-box setpadding">
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+            </el-button>
           </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
+          <div class="menu-box setpadding">
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+            </el-button>
           </div>
-          <div class="menu-box">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
+          <div class="menu-box setpadding">
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+            </el-button>
           </div>
           <div class="menu-box begins">
-            <svg class="icon svg-icon" aria-hidden="true">
-              <use xlink:href="#icongongjuxiang"></use>
-            </svg>
-            <span>上课</span>
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#icongongjuxiang"></use>
+              </svg>
+              <span>上课</span>
+            </el-button>
           </div>
           
         </div>
+
       </div>
-
-
     </div>
 
     <!-- 主要部分 -->
@@ -97,7 +97,16 @@
 			<brading-board></brading-board>
 
       <!-- 视频 -->
-			<video-webget ref="video"></video-webget>
+      <!--老师视频-->
+			<div class="presenter-video-box">
+				<video-webget ref="video"></video-webget>
+			</div>
+      <!--学生视频-->
+			<div class="student-video-box">
+				
+			</div>
+
+			
 
       <!-- 聊天 -->
 			<slide-show ref="chat"></slide-show>
@@ -119,14 +128,11 @@ export default {
   },
   data() {
     return {
-      sdk: null,
-      isMobile:
-        navigator.userAgent.match(
-          /(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i
-        ) != null
-          ? true
-          : false //是否为手机
+
     };
+  },
+  mounted() {
+    //模板编译挂在之后  在这发起后端请求，拿回数据，配合路由钩子做一些事情
   },
   methods: {}
 };
@@ -134,6 +140,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-@import "../../assets/css/main.scss";
+// @import "../../assets/css/main.scss";
 
 </style>

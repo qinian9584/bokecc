@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
 	mode: 'history', 
 	routes: [
 		{
@@ -37,6 +37,12 @@ export default new Router({
 					component: () => import('@/views/singleton/store'),
 					name: 'store',
 					meta: { title: 'store' }
+				},
+				{
+					path: 'theme',
+					component: () => import('@/views/singleton/theme'),
+					name: 'theme',
+					meta: { title: 'theme' }
 				}
 			]
 		},
@@ -56,3 +62,21 @@ export default new Router({
 		}
 	]
 })
+// 全局路由守卫
+router.beforeEach((to, from, next) => {
+	console.log(to)
+	console.log(from)
+	console.log(next)
+	next({
+		// path:to.path,
+		// name: to.name,
+		query: to.query,
+		params:{
+			urlData:to.query
+		}		
+	  })
+	// 必须使用 next ,执行效果依赖 next 方法的调用参数
+})
+
+
+export default router

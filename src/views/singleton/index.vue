@@ -1,9 +1,9 @@
 <template>
   <div class="catalog">	
     <div class="left">
-      <h3>目录</h3>
+      <h3>{{$t("singleton.Catalog")}}</h3>
       <el-tree
-        :data="data5"
+        :data="data"
         default-expand-all
         :expand-on-click-node="false">
         <span class="" slot-scope="{ node,data }">
@@ -25,31 +25,52 @@ export default {
   name: 'catalog',
   data() {
     return {
-      data5: [{
-        label: '登录',
-        url: '/login',
-      },{
-        label: '数据展示',
-        url: '/singleton',
-        children: [{
-          label: '状态管理数据',
-          url: '/singleton/store',
-        }, {
-          label: '国际化数据',
-          url: '/singleton/lang',
-        }]
-      },{
-        label: '401',
-        url: '/401',
-      },{
-        label: '404',
-        url: '/404',
-      }],
-      defaultProps: {
-        children: 'children',
-        label: 'label'
-      }
+      
     };
+  },
+  computed: {
+      title: function () {
+          return this.$t("login.login");
+      },
+      data:function(){
+        let arr = [
+            {
+              label: this.$t("login.login"),
+              url: '/login',
+            },
+          {
+            label: this.$t("singleton.presenter"),
+            url: '/presenter',
+          },
+          {
+            label: this.$t("singleton.dataDisplay"),
+            url: '/singleton',
+            children: [{
+              label:this.$t("singleton.stateManagement"),
+              url: '/singleton/store',
+            }, {
+              label: this.$t("singleton.translationdata"),
+              url: '/singleton/lang',
+            }, {
+              label: this.$t("singleton.modifyTheme"),
+              url: '/singleton/theme',
+            }]
+          },
+          {
+            label: '401',
+            url: '/401',
+          },
+          {
+            label: '404',
+            url: '/404',
+          }
+        ]
+        return arr
+      }
+      
+  },
+  watch:{
+    
   },
   methods:{
     
@@ -59,8 +80,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+@import "../../assets/css/mixin.scss";
 h3{
   color: rgb(191, 203, 217);
+  height: 50px;
+  line-height: 50px;
+  padding-left:10px; 
 }
 .left{
   position: fixed;
@@ -69,6 +94,7 @@ h3{
   height: 100%;
   width: 200px;
   background: rgb(48, 65, 86);
+  @include bg_color(rgb(48, 65, 86))
 }
 .right{
   position: fixed;
