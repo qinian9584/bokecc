@@ -25,8 +25,21 @@ export default {
   name: 'catalog',
   data() {
     return {
-      
+      query:'',//一般页面参数；
+      loginquery:'',//登录页面参数
     };
+  },
+  created(){
+    let query = this.$route.query;
+        this.query = `?userid=${query.userid}&roomid=${query.roomid}`;
+        const  role= localStorage.getItem('role')||'presenter';
+        this.loginquery = `?userid=${query.userid}&roomid=${query.roomid}&role=${role}`;
+
+    console.log(this.$route)
+  },
+  mounted() {
+    //模板编译挂在之后  在这发起后端请求，拿回数据，配合路由钩子做一些事情
+    
   },
   computed: {
       title: function () {
@@ -36,24 +49,24 @@ export default {
         let arr = [
             {
               label: this.$t("login.login"),
-              url: '/login',
+              url: '/login'+this.loginquery,
             },
           {
             label: this.$t("singleton.presenter"),
-            url: '/presenter',
+            url: '/presenter'+this.query,
           },
           {
             label: this.$t("singleton.dataDisplay"),
-            url: '/singleton',
+            url: '/'+this.query,
             children: [{
               label:this.$t("singleton.stateManagement"),
-              url: '/singleton/store',
+              url: '/store'+this.query,
             }, {
               label: this.$t("singleton.translationdata"),
-              url: '/singleton/lang',
+              url: '/lang'+this.query,
             }, {
               label: this.$t("singleton.modifyTheme"),
-              url: '/singleton/theme',
+              url: '/theme'+this.query,
             }]
           },
           {
@@ -62,7 +75,7 @@ export default {
           },
           {
             label: '404',
-            url: '/404',
+            url: '/404'+this.query,
           }
         ]
         return arr

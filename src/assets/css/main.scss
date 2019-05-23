@@ -18,6 +18,18 @@ html,body{
     width: 100%;
     height: 100%;
 }
+.backgorund-FF9502{
+    @include bg_color(#FF9502);
+     border-color:#323232;
+}
+.backgorund-FF9502:hover{
+    @include bg_color(rgb(253, 167, 47));
+    border-color:rgb(251, 168, 51);
+}
+.backgorund-FF9502:active{
+    @include bg_color(rgb(253, 167, 47));
+    border-color:rgb(251, 168, 51);
+}
 .icon {
     /* 通过设置 font-size 来改变图标大小 */
     width: 1em;
@@ -38,15 +50,16 @@ html,body{
     flex-direction:column; 
     background: url(../../assets/img/index/background-index.png) no-repeat center center;
     background-size:100% 100%;  
+    
 }
 .nav {
-    height: 50px;
+    height: 40px;
     min-width: 96%;
     padding: 0 10px;
     color: #fff;
     clear: both;
     font-size: 12px;
-    
+    background: #323232;
     .nav-body {
         position: relative;
         display: flex;
@@ -71,6 +84,7 @@ html,body{
                 >button{
                     background: #333;
                     border: none;
+                    padding: 5px 10px;
                 }
                 >button:hover{
                     background: #999;
@@ -103,23 +117,44 @@ html,body{
             align-items:center;/*垂直居中*/
             height: 100%;
             .icon{
-                height: 20px;
-                width: 20px;
+                height: 16px;
+                width: 16px;
                 font-size: 18px;
-                vertical-align: -5px;
+                vertical-align: -3px;
             }
 
             .menu-box{
                 margin:0 0 0 10px; 
+                >button{
+                    background: transparent;
+                    border: 0;
+                }
+                
+            }
+            .cut-wheat{
+                button{
+                    padding: 4px 6px;
+                    background: #5c5b5b;
+                }
             }
             .setpadding{
-                >button{
+                button{
                     padding: 5px;
+                }
+                button:hover{
+                    background: #5c5b5b;
                 }
             }
             .begins{
+                button{
+                    padding: 7px 10px;
+                    font-size: 12px;
+                    width: 90px;
+                }
+                
                 .icon{
-                    margin-right:5px; 
+                    margin-right:3px; 
+                    width: 14px;
                 }
             }
         }
@@ -152,4 +187,5 @@ html,body{
     border-top-left-radius: 6px;
     border-top-right-radius:6px;
     overflow: hidden; 
+    background: black;
 }

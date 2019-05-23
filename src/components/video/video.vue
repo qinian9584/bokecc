@@ -1,9 +1,10 @@
 <template>
     <div class="video-position" >
-        <div class="video-wedget">
+        <div class="video-wedget" :id=videodata.id>
           <!-- 直播视频模块 -->
           
         </div>
+        <div></div>
         <!-- <div class="fix-position" v-show="!isplay">
           <img src="../../assets/img/loading-000.png">
         </div> -->
@@ -12,7 +13,7 @@
 
 <script>
 export default {
-  props: ["chan"],
+  props: ["videodata"],
   data () {
     return {
         position: false,
@@ -22,24 +23,11 @@ export default {
   },
   mounted: function() {
     var vue = this;
-   
+    this.videodata.stream.show(this.videodata.id)
+    
   },
   methods: {
-    showVideo: function(Option) {
-      var vue = this;
-      // window.CallbackPlayer =new CallbackPlayer(Option);
-
-      // setTimeout(function(){
-      //   console.log('定时器')
-      //   $("#videoCon").css({
-      //     height:'100%',
-      //     width:'100%'
-      //   });
-
-      //   vue.isShowL = true;
-      // },4000)
-        
-    }
+    
   }
 }
 </script>
@@ -62,6 +50,7 @@ export default {
     width: 100%;
     background: #000;
     position: relative;
+    text-align: left;
 }
 .fix-position{
   position: absolute;

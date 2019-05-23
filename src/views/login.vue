@@ -41,8 +41,7 @@
 </template>
 
 <script>	
-	import loginapi from '@/api/login'
-	import {getCookie,setCookie} from '@/assets/js/utils'
+	import loginapi from '@/api/login'	
 	export default {
 		name: 'login',
 		data() {
@@ -60,9 +59,7 @@
 			}
 		},
 		beforeCreate:function() {
-			// if(this.rtc){
-			// 	window.location.reload()
-			// }
+			
 		},
 		created: function(){	
 						
@@ -73,11 +70,12 @@
 		methods:  {
 			logoin: function () {
 				let _this =this;
-				let data = this.$route.query;				
+				let data = this.$route.query;
+				const role = data.role;				
 				const name = this.username;
 				const password= this.password;
 
-				
+				console.log(this.$route)
 				
 				if(name == ''){
 					_this.showError('账户不能为空')
@@ -93,14 +91,16 @@
 					}
 				}
 
-				data.name = name;
-				data.password = password; 
-				data.client = 0;//客户端
-				const role = data.role;
-				
-				data.role = this.role[role];//角色
-						
-				var s=loginapi.loginByToken(data).then(function (response) {
+				let obj = {
+					roomid:data.roomid,
+					userid:data.userid,
+					name,
+					password,
+					client:0,
+					role:this.role[data.role]
+				}				
+									
+				loginapi.loginByToken(obj).then(function (response) {
 					console.log(response.data)					
 					const res = response.data;
 					if(res.result == 'OK'){
@@ -108,9 +108,10 @@
 						setCookie(token, res.data.token, 1);
 						_this.$router.push({
 							path: `/${role}`,
-							name: ro,
+							name: role,
 							query: {
-														
+								roomid:obj.roomid,
+								userid:obj.userid						
 							},
 						});
 					}else{
@@ -123,37 +124,6 @@
 				})
 								
 				
-				// $.ajax({
-				// 	url: "https://ccapi.csslcloud.net/api/v1/serve/room/token/create",
-				// 	type: "GET",
-				// 	dataType: "json",
-				// 	data: {
-				// 		userid: userid,
-				// 		roomid: roomid,
-				// 		name: name,
-				// 		password: password,
-				// 		role: 2,
-				// 		client: "0" //登录客户端类型：0: 浏览器， 1: 移动端 （必填）
-				// 	},
-				// 	success: function(data) {
-				// 		console.log(data);
-				// 		if(data.result === 'OK') {
-				// 			var token = data.data.token;
-				// 			setCookie('audience', token, 1);
-				// 			_this.$router.push({
-				// 				path: '/check',
-				// 				name: 'checkPage',
-				// 				query: {
-				// 					roomid : roomid,
-				// 					userid: userid						
-				// 				},
-				// 			});
-
-				// 		} else {
-				// 			_this.showError('密码错误')
-				// 		}
-				// 	}
-				// });
 			},
 			showError(errText){
 				this.loginPssData = errText;
@@ -184,9 +154,7 @@
     width: 336px;
     height: 360px;
     float: left;
-    /* background: #fefdfb; */
     text-align: center;
-    /* border: 1px solid #D3D5D7; */
     border-radius: 3px;
     color: #fff;
     padding: 80px 20px 0 20px;
@@ -222,7 +190,6 @@
     font-weight: bold;
     color: #fff;
     line-height: 30px;
-    /* margin-bottom: 20px; */
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

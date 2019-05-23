@@ -1,12 +1,11 @@
-import {getCookie,setCookie} from '@/assets/js/utils'
 import axios from 'axios'
 
 var ccapi = axios.create({
   baseURL: 'https://ccapi.csslcloud.net',
-  timeout: 1000,
+  timeout: 10000,
   headers: {'Token': 'foobar'}
 });
-
+// console.log(getCookie('token_presenter'))
 function loginByToken(data) {
     return ccapi({
         method: 'get',
@@ -14,7 +13,9 @@ function loginByToken(data) {
         params: data
     })
     
-}
+};
+
+
 export default {
-    loginByToken,
+    loginByToken
 }

@@ -8,16 +8,30 @@ const router = new Router({
 		{
 			path: '/login',
 			name: 'login',
-			component: () => import('@/views/login'),
+			component: () => import('@/views/login')
 		},
 		{
 			path: '/presenter',
 			name: 'presenter',
 			component: () => import('@/views/presenter/index'),
+			 beforeEnter: (to, from, next) => {
+				 const token = getCookie('token_presenter');
+				//  console.log('routerbofore',token)				
+				if(!token){
+					let query = to.query;
+						query.role = 'presenter';
+					next({
+						path:'/login',
+						name: 'Login',
+						query: query
+					})
+				}else{
+					next(true)
+				}
+			}
 		},
 		{
-			path: '/singleton/',
-			name: 'catalog',
+			path: '/',		
 			component: () => import('@/views/singleton/index'),
 			children: [
 				{
@@ -36,7 +50,7 @@ const router = new Router({
 					path: 'store',
 					component: () => import('@/views/singleton/store'),
 					name: 'store',
-					meta: { title: 'store' }
+					meta: { title: 'store' },										
 				},
 				{
 					path: 'theme',
@@ -63,20 +77,22 @@ const router = new Router({
 	]
 })
 // 全局路由守卫
-router.beforeEach((to, from, next) => {
-	console.log(to)
-	console.log(from)
-	console.log(next)
-	next({
-		// path:to.path,
-		// name: to.name,
-		query: to.query,
-		params:{
-			urlData:to.query
-		}		
-	  })
-	// 必须使用 next ,执行效果依赖 next 方法的调用参数
-})
+// router.beforeEach((to, from, next) => {
+// 	console.log(to)
+// 	console.log(from)
+// 	// console.log(next)
+
+// 	if (!('roomid' in to.query))  {		
+// 		console.log(1)
+// 		next(Object.assign({}, to, { query: from.query }))  	
+							
+// 	}  else {
+// 		console.log(2)
+// 		next()			
+// 	}	
+// 	// 必须使用 next ,执行效果依赖 next 方法的调用参数
+// })
+
 
 
 export default router
