@@ -14,13 +14,12 @@ function sdkListen(vue) {
     // 监听登陆成功
     rtc.on('login_success', function (data) {
         // 登录成功
-        console.log(data,data.live.states,'登录成功------------------');
+        console.log(data,data.live.status,'登录成功------------------');
         
-        vue.$store.state.room.liveStatus = data.live.status;
-        if(data.live.status){
-            vue.$store.dispatch('setLiveStartData',data.live.last);//修改直播时间
-        }
-
+        let time = (data.live.status)?(data.live.last):0;//已经直播时长
+        // vue.$store.dispatch('setLiveStatus',data.live.status,time);//修改直播状态
+        
+  
 
         rtc.createLocalStream({
             streamName: 'main',
@@ -44,8 +43,15 @@ function sdkListen(vue) {
 
     // 直播开始
     rtc.on('publish_stream', function (data) {
-        console.log(data,'正在直播中------------------');
+        console.log(data,'开启直播成功------------------');
+        vue.$store.dispatch('setLiveStatus',1);//修改直播状态;
     })
+
+    // 直播已关闭
+    rtc.on('end_stream', function(str){
+        console.log('直播已关闭-----------------------------------');
+        vue.$store.dispatch('setLiveStatus',0);//修改直播状态;
+    });
 } 
 
 

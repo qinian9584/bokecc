@@ -98,7 +98,7 @@
                 <svg class="icon svg-icon" aria-hidden="true">
                   <use xlink:href="#icongongjuxiang"></use>
                 </svg>
-                <span>{{$store.state.room.liveStartData}}</span>
+                <span>{{$store.state.room.liveStartTime}}</span>
               </el-button>
             </div>
           </div>
@@ -187,14 +187,13 @@ export default {
     //开始直播
     startLive() {
       let vue = this;
-      vue.$store.state.room.liveStatus = 2;
+      vue.$store.dispatch('setLiveStatus',2);//修改直播状态
       rtc.startLive({
         success: function(data) {
           console.log("开启直播成功", data);
-          vue.$store.state.room.liveStatus = 1;
         },
         fail: function(str) {
-          vue.$store.state.room.liveStatus = 0;
+          vue.$store.dispatch('setLiveStatus',0);//修改直播状态
           console.log(str);
         }
       });
@@ -202,15 +201,14 @@ export default {
     //结束直播
     stopLive() {
       let vue = this;
-      vue.$store.state.room.liveStatus = 2;
+      vue.$store.dispatch('setLiveStatus',2);//修改直播状态
       rtc.stopLive({
         success: function() {
           console.log("关闭直播成功");
-          vue.$store.state.room.liveStatus = 0;
         },
         fail: function(str) {
           console.log(str);
-          vue.$store.state.room.liveStatus = 1;
+          vue.$store.dispatch('setLiveStatus',1);//修改直播状态
         }
       });
     }

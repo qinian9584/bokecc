@@ -30,6 +30,12 @@ html,body{
     @include bg_color(rgb(253, 167, 47));
     border-color:rgb(251, 168, 51);
 }
+.backgorund-FF9502:focus{
+    @include bg_color(rgb(253, 167, 47));
+    border-color:rgb(251, 168, 51);
+}
+
+
 .icon {
     /* 通过设置 font-size 来改变图标大小 */
     width: 1em;
