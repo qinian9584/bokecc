@@ -56,48 +56,41 @@ const mutations = {//自定义改变state初始值的方法，这里面的参数
 };
 const actions = {//自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
 
-	/**
-   *修改直播状态   定时修改直播时长
-  * @param {obj}  store 对象
-  * @param {string} 直播状态  0:直播未开始；1：直播进行中；2：正在开启直播中
-  * @param {Array，string} 可选  已经进行直播时长，默认0
-  * 
-  */
-	setLiveStatus(context, val, time=0) {
-		context.commit('liveStatus', val)
-		console.log(time);
-		
-		let intval = null;
-		if (val == 0) {
-			clearInterval(intval)
-		} else if (val == 1) {
+	/*
+	*
+   	*修改直播状态   定时修改直播时长
+	* @param {obj}  store 对象
+	* @param {number} 直播状态  0:直播未开始；1：直播进行中；2：正在开启直播中
+	* @param {'status':0,'time':6000} 直播状态  直播进行时长
+	* 
+	*/
+	setLiveStatus(context, data) {
+		let state, time;
+		if (typeof data == "number") {
+			state = data;
+			time = 0;
+		} else {
+			state = data.status;
+			time = data.time;
+		}
+
+		context.commit('liveStatus', state)
+
+		if (state == 1) {
 			let data = parseInt(time) / 1000;
 			context.commit('startTime', timeFormat(data))
 			const intval = setInterval(function () {
 				if (context.state.room.liveStatus !== 1) {
 					clearInterval(intval)
 				}
-					data++;		
-					context.commit('startTime',timeFormat(data))
-				},1000)
-		}else if(val == 2){
-			clearInterval(intval)
+				data++;
+				context.commit('startTime', timeFormat(data))
+
+			}, 1000)
 		}
-		
+
 	},
-	//修改直播时间
-	setLiveStartTime(context,val){
-		let data = parseInt(val)/1000;	
-		context.commit('startTime',timeFormat(data))	
-		const intval = setInterval(function(){
-			if(context.state.room.liveStatus!==1){
-				clearInterval(intval)
-			}
-			data++;		
-			context.commit('startTime',timeFormat(data))
-		},1000)
-		
-	},
+
 };
 const store = new Vuex.Store({
 	state,

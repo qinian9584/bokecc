@@ -171,18 +171,24 @@ html,body{
 .main{
     position: relative;
     left: 0;
-    z-index: 1;
-    margin:0 10px 10px;
-    box-sizing: border-box;
+    display: flex;
     flex: 1;
+    z-index: 1;
+    margin:30px 35px 20px 35px;
+    box-sizing: border-box;
     z-index: 998;
     transition: all .6s ease;
 }
-.presenter-video-box{
-    position: absolute;
-    right: 0;
-    top: 0;
+.right-box{
+    position: relative;
+    height: 100%;
     width: 280px;
+    margin-left:10px; 
+    display: flex;
+    flex-direction:column;
+}
+.presenter-video-box{
+    width: 100%;
     height: 160px;
     text-align: center;
     vertical-align: center;
@@ -192,6 +198,8 @@ html,body{
     z-index:0;
     border-top-left-radius: 6px;
     border-top-right-radius:6px;
-    overflow: hidden; 
     background: black;
+}
+.student-video-box{
+    padding: 5px 0 0;
 }

@@ -26,6 +26,8 @@
       <span>{{this.$i18n.locale}}</span>
     </div>
   </div>
+
+  
 </template>
 
 <script>

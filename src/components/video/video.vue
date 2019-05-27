@@ -51,6 +51,9 @@ export default {
     background: #000;
     position: relative;
     text-align: left;
+    border-top-left-radius: 6px;
+    border-top-right-radius:6px;
+    overflow: hidden;
 }
 .fix-position{
   position: absolute;

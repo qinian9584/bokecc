@@ -2,7 +2,7 @@
   <div class="main-right f-right">
     <div class="slide-show">
       <div class="top">
-        <ul class="nav-ul">
+        <ul class="nav-ul" v-show="false">
           <li
             v-for="(item, index) in list"
             :key="index"
@@ -406,11 +406,8 @@ export default {
 
 <style scoped>
 .main-right {
-    position: absolute;
-    top: 160px;
-    right: 0;
-    bottom: 0;
-    width: 280px;
+    flex: 1;
+    width: 100%;
     background: #fff;
     overflow: hidden;
     border-bottom-left-radius: 6px;

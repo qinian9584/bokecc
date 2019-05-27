@@ -111,21 +111,30 @@
       <!-- 画板 -->
       <brading-board></brading-board>
 
-      <!-- 视频 -->
-      <!--老师视频-->
-      <div class="presenter-video-box">
-        <component
-          :is="item.component"
-          :videodata="item.data"
-          v-for="(item,index) in presentervideo"
-          :key="index"
-        ></component>
-      </div>
-      <!--学生视频-->
-      <div class="student-video-box"></div>
+      <div class="right-box">
+        <!-- 视频 -->
+        <!--老师视频-->
+        <div class="presenter-video-box">
+          <component
+            :is="Object.values(value)[0].component"
+            :videodata="Object.values(value)[0].data"
+            v-for="(value,key,index) in presentervideo"
+            :key="index"
+          ></component>
+        </div>
+        <!--学生视频-->
+        <div class="student-video-box">
+          <component
+            :is="Object.values(value)[0].component"
+            :videodata="Object.values(value)[0].data"
+            v-for="(value,key,index) in talkervideo"
+            :key="index"
+          ></component>
+        </div>
 
-      <!-- 聊天 -->
-      <slide-show ref="chat"></slide-show>
+        <!-- 聊天 -->
+        <slide-show ref="chat"></slide-show>
+      </div>
     </div>
   </div>
 </template>
@@ -148,7 +157,8 @@ export default {
   },
   data() {
     return {
-      presentervideo: [] //老师视频
+      presentervideo: [], //老师视频
+      talkervideo: [], //学生视频
     };
   },
   created() {
@@ -175,14 +185,16 @@ export default {
     demo() {},
 
     //增加视频
-    addVideo(stream, id) {
-      this.presentervideo.push({
-        component: videoWebget,
-        data: {
-          stream,
-          id
+    addVideo(stream,videobox, id) {
+      this[videobox].push({
+         aa:{
+          component: videoWebget,
+          data: {
+            stream,
+            id
+          }
         }
-      });
+      })
     },
     //开始直播
     startLive() {

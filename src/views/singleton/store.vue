@@ -21,6 +21,15 @@
       <el-button type="primary" @click="chan">修改state.showFooter</el-button>
       <span>{{$store.state.showFooter}}</span>
     </div>
+
+    <div class="box">
+      <div class="left"></div>
+      <div class="right-box">
+        <div class="video1">讲师视频</div>
+        <div class="video2">学员视频</div>
+        <div class="right"></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -69,6 +78,42 @@ h3{
   text-align: center;
   span{
     padding: 0 0 0 20px;
+  }
+}
+.box{
+  width: 800px;
+  height: 300px;
+  margin: 50px;
+  border: 1px solid red;
+  display: flex;
+
+  .left{
+    background: gray;
+    flex: 1;
+  }
+
+  .right-box{
+    width: 200px;
+    display: flex;
+    flex-direction:column;
+
+  }
+  .video1{
+    background: bisque;
+    height: 50px;
+    width: 100%;
+    
+  }
+  .video2{
+    background: gold;
+    height: 100px;
+    width: 100%;
+  }
+  .right{
+    
+    width: 100%;
+    background: pink;
+    flex: 1;
   }
 }
 </style>

@@ -129,10 +129,7 @@ export default {
 }
 .main-board {
   background: #fff;
-  position: absolute;
-  right: 290px;
-  left: 0;
-  top: 0;
+  flex: 1;
   bottom: 0px;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
