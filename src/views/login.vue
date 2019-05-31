@@ -41,7 +41,7 @@
 </template>
 
 <script>	
-	import loginapi from '@/api/login'	
+	import {loginByToken} from '@/api/ccapi'	
 	export default {
 		name: 'login',
 		data() {
@@ -100,7 +100,7 @@
 					role:this.role[data.role]
 				}				
 									
-				loginapi.loginByToken(obj).then(function (response) {
+				loginByToken(obj).then(function (response) {
 					console.log(response.data)					
 					const res = response.data;
 					if(res.result == 'OK'){

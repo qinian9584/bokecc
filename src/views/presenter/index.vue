@@ -8,7 +8,7 @@
           <div class="menu-box">
             <el-button type="primary" size="mini">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icongongjuxiang"></use>
+                <use xlink:href="#iconkejianku"></use>
               </svg>
               <span>课件库</span>
             </el-button>
@@ -28,7 +28,7 @@
           <div class="menu-box">
             <el-button type="primary" size="mini">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icongongjuxiang"></use>
+                <use xlink:href="#iconhuamingce"></use>
               </svg>
               <span>花名册</span>
             </el-button>
@@ -36,46 +36,59 @@
         </div>
 
         <!-- 直播倒计时 -->
-        <div class="nav-center">
+        <div class="nav-center" v-if="false">
           <span>直播倒计时&nbsp;</span>
           <span>01：20：22</span>
         </div>
 
         <!-- 右侧菜单 -->
         <div class="f-right nav-right">
-          <div class="menu-box cut-wheat">
+          <div class="menu-box cut-wheat"  v-if="false">
             <el-button type="primary" size="mini" @click="demo">
               <span>切麦</span>
             </el-button>
           </div>
+          <!-- 设备检查 -->
           <div class="menu-box setpadding">
             <el-button type="primary" size="mini">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icongongjuxiang"></use>
+                <use xlink:href="#iconjiance"></use>
               </svg>
             </el-button>
           </div>
+          <!-- 节点切换 -->
           <div class="menu-box setpadding">
             <el-button type="primary" size="mini">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icongongjuxiang"></use>
+                <use xlink:href="#iconjiedian"></use>
               </svg>
             </el-button>
           </div>
+          <!-- 设置 -->
           <div class="menu-box setpadding">
             <el-button type="primary" size="mini">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icongongjuxiang"></use>
+                <use xlink:href="#iconshezhi"></use>
               </svg>
             </el-button>
           </div>
+          <!-- 退出登录 -->
           <div class="menu-box setpadding">
             <el-button type="primary" size="mini">
               <svg class="icon svg-icon" aria-hidden="true">
-                <use xlink:href="#icongongjuxiang"></use>
+                <use xlink:href="#iconxiake"></use>
               </svg>
             </el-button>
           </div>
+          <!-- 收到录制 -->
+          <div class="menu-box setpadding">
+            <el-button type="primary" size="mini">
+              <svg class="icon svg-icon" aria-hidden="true">
+                <use xlink:href="#iconluzhi"></use>
+              </svg>
+            </el-button>
+          </div>
+          <!-- 开启直播 or 结束直播 -->
           <div class="menu-box begins">
             <div v-if="$store.state.room.liveStatus === 0">
               <el-button type="primary" size="mini" class="backgorund-FF9502" @click="startLive">
@@ -107,7 +120,7 @@
     </div>
 
     <!-- 主要部分 -->
-    <div class="main">
+    <div :class="{main:true,'student-position-fixd':studentPositionFixd}">
       <!-- 画板 -->
       <brading-board></brading-board>
 
@@ -116,8 +129,8 @@
         <!--老师视频-->
         <div class="presenter-video-box">
           <component
-            :is="Object.values(value)[0].component"
-            :videodata="Object.values(value)[0].data"
+            :is="value.component"
+            :videodata="value.data"
             v-for="(value,key,index) in presentervideo"
             :key="index"
           ></component>
@@ -125,15 +138,15 @@
         <!--学生视频-->
         <div class="student-video-box">
           <component
-            :is="Object.values(value)[0].component"
-            :videodata="Object.values(value)[0].data"
+            :is="value.component"
+            :videodata="value.data"
             v-for="(value,key,index) in talkervideo"
             :key="index"
           ></component>
         </div>
 
         <!-- 聊天 -->
-        <slide-show ref="chat"></slide-show>
+        <online-chat ref="chat" :chatLog="chatLog"></online-chat>
       </div>
     </div>
   </div>
@@ -142,7 +155,7 @@
 <script>
 //组件
 import bradingBoard from "../../components/board/drawingBoard";
-import slideShow from "../../components/chat/slideShow";
+import onlineChat  from "../../components/chat/chat";
 import videoWebget from "../../components/video/video";
 
 //js
@@ -151,14 +164,14 @@ export default {
   name: "presenter",
   components: {
     bradingBoard, //白板组件
-    slideShow //聊天组件
-    // videoWebget,//视频区域组件
-    // dialogAlert,//上传图片 放大图片
+    onlineChat //聊天组件
   },
   data() {
     return {
+      studentPositionFixd:false,//切换学生视频，摆放位置（是否在左下角）
       presentervideo: [], //老师视频
       talkervideo: [], //学生视频
+      chatLog:[],//聊天历史数据 
     };
   },
   created() {
@@ -177,24 +190,24 @@ export default {
       sessionid: token
     });
   },
-  mounted() {
-    //模板编译挂在之后  在这发起后端请求，拿回数据，配合路由钩子做一些事情
-    sdkListen(this);
-  },
   methods: {
-    demo() {},
+    demo() {
+      
+    },
 
     //增加视频
     addVideo(stream,videobox, id) {
-      this[videobox].push({
-         aa:{
+      const streamkeys = 'streamId_'+id;
+      this[videobox].push(
+        {
+          streamkeys,
           component: videoWebget,
           data: {
             stream,
             id
           }
         }
-      })
+      )
     },
     //开始直播
     startLive() {
@@ -205,7 +218,7 @@ export default {
           console.log("开启直播成功", data);
         },
         fail: function(str) {
-          vue.$store.dispatch('setLiveStatus',0);//修改直播状态
+          // vue.$store.dispatch('setLiveStatus',0);//修改直播状态
           console.log(str);
         }
       });
@@ -224,7 +237,29 @@ export default {
         }
       });
     }
-  }
+  },
+  mounted() {
+    //模板编译挂在之后  在这发起后端请求，拿回数据，配合路由钩子做一些事情
+    sdkListen(this);
+  },
+  computed: {
+    // 计算属性的 getter
+    
+  },
+  watch: {    
+    talkervideo:{//普通的watch监听
+      handler: function(val, oldVal) {
+        const length = val.length;
+        if(length>=2){
+          if(!this.studentPositionFixd) this.studentPositionFixd = true;
+        }else{
+          if(this.studentPositionFixd) this.studentPositionFixd = false;
+        }
+        
+      },
+      deep: true
+    },
+  },
 };
 </script>
 

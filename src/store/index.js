@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 Vue.use(Vuex);
 const state = { //要设置的全局访问的state对象	
+	loginSuccessfully:false,//是否登录成功
 	//人员信息 房间信息
 	room: {
 		role: null,
@@ -43,6 +44,10 @@ const getters = { //实时监听state值的变化(最新状态)
 
 };
 const mutations = {//自定义改变state初始值的方法，这里面的参数除了state之外还可以再传额外的参数(变量或对象);
+	//修改是否登录成功
+	loginSuccessfully(state,n){
+		state.loginSuccessfully = n
+	},
 	//修改直播状态
 	liveStatus(state, n) {
 		state.room.liveStatus = n
@@ -61,6 +66,7 @@ const actions = {//自定义触发mutations里函数的方法，context与store 
    	*修改直播状态   定时修改直播时长
 	* @param {obj}  store 对象
 	* @param {number} 直播状态  0:直播未开始；1：直播进行中；2：正在开启直播中
+	* or
 	* @param {'status':0,'time':6000} 直播状态  直播进行时长
 	* 
 	*/

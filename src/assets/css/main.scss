@@ -54,7 +54,7 @@ html,body{
     clear: both;
     box-sizing: border-box;
     flex-direction:column; 
-    background: url(../../assets/img/index/background-index.png) no-repeat center center;
+    background: url(../../assets/img/index/bg.png) no-repeat center center;
     background-size:100% 100%;  
     
 }
@@ -182,14 +182,13 @@ html,body{
 .right-box{
     position: relative;
     height: 100%;
-    width: 280px;
-    margin-left:10px; 
+    width: 250px; 
     display: flex;
     flex-direction:column;
 }
 .presenter-video-box{
     width: 100%;
-    height: 160px;
+    height: 140px;
     text-align: center;
     vertical-align: center;
     color: #fff;
@@ -202,4 +201,37 @@ html,body{
 }
 .student-video-box{
     padding: 5px 0 0;
+}
+//切换学生视频位置
+.student-position-fixd{
+    justify-content:flex-end;
+    .main-board{
+        position: fixed;
+        top: 70px;
+        bottom: 120px;
+        right: 285px;
+        left: 35px;
+        
+    }
+    .student-video-box{
+        position: fixed;
+        left: 35px;
+        bottom: 20px;
+        z-index: 2000;
+
+        .video-position{
+            float: left;
+            width: 160px;
+            height: 90px;
+            .video-wedget{
+                border-radius:0; 
+            }
+        }
+    }
+}
+
+//设置聊天图标
+.main-right .msg-img{
+  margin: 0 4px;
+  height: 20px;
 }

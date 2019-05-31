@@ -15,9 +15,11 @@ function sdkListen(vue) {
     rtc.on('login_success', function (data) {
         // 登录成功
         console.log(data,data.live.status,'登录成功------------------');
-        
+        vue.$store.commit('loginSuccessfully', true)//是否登录成功
+
         let time = (data.live.status)?(data.live.last):0;//已经直播时长
         vue.$store.dispatch('setLiveStatus',{'status':data.live.status,'time':time});//修改直播状态
+        
         rtc.createLocalStream({
             streamName: 'main',
             success: function(stream){
@@ -38,6 +40,16 @@ function sdkListen(vue) {
                 console.log(err);
             }
         });
+
+        rtc.getHistory({
+            success: function(data){
+                console.log('------------------获取历史数据成功-----------------', data);
+                vue.chatLog = data.datas.meta.chatLog
+            },
+            fail: function(str){
+                console.log(str);
+            }
+         });
     });
     
     // 监听登陆失败
@@ -120,7 +132,15 @@ function sdkListen(vue) {
 
     // 删除显示该流用的界面dom
     rtc.on('stream_removed', function (stream) {
+        const streamkeys = 'streamId_'+stream.id();
+        // vue.$set(vue.talkervideo,streamkeys, {})
 
+        // delete vue.talkervideo[streamkeys]
+        for(let i in vue.talkervideo){
+            if(vue.talkervideo[i].streamkeys==streamkeys){
+                vue.talkervideo.splice(i,1);
+            }
+        }    
     });
 } 
 

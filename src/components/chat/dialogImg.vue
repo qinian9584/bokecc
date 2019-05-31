@@ -1,5 +1,5 @@
 <template>
-  <div class="dialog" @mouseup="upenlargeImg"  @mousemove="moveImg($event)">
+  <div class="dialog" @mouseup="upenlargeImg"  @mousemove="moveImg($event)" v-if="isshow">
     <div class="dia-fix">
       <div v-if="file.upData == true" class="dia-con" id="diaCon">
         <h3 @click="sne">图片预览</h3>
@@ -25,20 +25,24 @@
 </template>
 
 <script>
+import {ossDirname,uploadPictures} from '@/api/ccapi'
 export default {
   data () {
     return {
+      isshow:false,//是否显示
       flag:false,//是否为按下状态
       coordinate:[],//按下坐标
-      coordinateMove:[]//移动坐标
+      coordinateMove:[],//移动坐标
     }
   },
-  props: [
-    'file'
-  ],
+  props: {
+    file: {
+      
+    }
+  },
   methods: {
     CloseLog: function() {
-      this.$emit('CloseLog');
+      this.isshow = false
     },
     uploadImg: function() {
       let file = this.file;
@@ -60,27 +64,21 @@ export default {
     upload_oss: function(file, filename) {			
       var vue =this;
       var start = function() {
-        $.ajax({
-          type: "get",
-          data: {
-            'userid': vue.$route.query.userid,
-            'roomid': vue.$route.query.roomid,
-            'type': 'chatimg'
-          },
-          url: "https://ccapi.csslcloud.net/api/oss/token",
-          success: function(data) {
-            vue.chat_img_global.g_oos_params = data;
-            vue.chat_img_global.expire = vue.chat_img_global.g_oos_params.expire;
-            vue.chat_img_global.g_dirname = vue.chat_img_global.g_oos_params.dir + '/';
-
-            var parms = vue.chat_set_upload_param(filename);
-
-            vue.OssUpload(parms, file, vue.send_img);
-            
-          },
-          error: function() {
-            console.log('请求后台oss api失败');
-          }
+        
+        ossDirname({
+          'userid': vue.$route.query.userid,
+          'roomid': vue.$route.query.roomid,
+          'type': 'chatimg'
+        })
+        .then(function (response) {
+          vue.chat_img_global.g_oos_params = response.data;
+          vue.chat_img_global.expire = vue.chat_img_global.g_oos_params.expire;
+          vue.chat_img_global.g_dirname = vue.chat_img_global.g_oos_params.dir + '/';
+          var parms = vue.chat_set_upload_param(filename);
+          vue.OssUpload(parms, file, vue.send_img);
+        })
+        .catch(function (error) {
+          console.log(error);
         });
       };
 
@@ -135,7 +133,7 @@ export default {
       var chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';　　
       var maxPos = chars.length;　　
       var pwd = '';　　
-      for (i = 0; i < len; i++) {　　
+      for (var i = 0; i < Number(len); i++) {　　
         pwd += chars.charAt(Math.floor(Math.random() * maxPos));
       }
       return pwd;
@@ -163,41 +161,22 @@ export default {
       request.append('file', file);
       request.append('submit', "Upload to OSS");
 
-      $.ajax({
-        url: param.host,
-        data: request,
-        processData: false,
-        cache: false,
-        async: true,
-        contentType: false,
-        //关键是要设置contentType 为false，不然发出的请求头 没有boundary
-        //该参数是让jQuery去判断contentType
-        type: "POST",
-        success: function(data, status, request) {
-          if (status === "success") {
-            callBack(fileFullName);
-          } else {
-            console.log('图片上传oss失败');
-          }
+      uploadPictures(param.host, request)
+      .then(function (response) {
+        if(response.status == 200){
+          callBack(fileFullName);
         }
+      })
+      .catch(function (error) {
+        console.log(error,'-------------------------------------')
       });
-
     },
     send_img: function(data) {
-      var msg = {
-        'type': 'img',
-        'content': data
-      };
-      console.log('!!!!!!!!上传文件路径' + data);
-      this.rtc.sendImg(JSON.stringify(msg));
+      var val = '[img_'+data+']';
+      rtc.sendMsg(val);
     },
     sne: function(data) {
-      var msg = {
-        'type': 'img',
-        'content': 'data'
-      };
-      console.log('!!!!!!!!上传文件路径' + data);
-      this.rtc.sendImg(JSON.stringify(msg));
+      
     },
     enlargeImg: function(e){
       //按下鼠标，开启放大放大缩小图片事件
@@ -224,7 +203,20 @@ export default {
       //鼠标抬起，移动放大图片失效
       this.flag = false;
     }
-  }
+  },
+  mounted() {
+    
+  },
+  watch: {
+    file: {
+      handler(newName, oldName) {
+        this.isshow = newName.isshow
+      },
+      immediate: true,
+      deep: true
+    }
+    
+  },
 }
 </script>
 

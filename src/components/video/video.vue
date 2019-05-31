@@ -35,8 +35,8 @@ export default {
 <style scoped lang="scss">
 .video-position{
     position: relative;
-    width: 280px;
-    height: 160px;
+    width: 250px;
+    height: 140px;
     text-align: center;
     vertical-align: center;
     color: #fff;

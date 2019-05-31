@@ -22,7 +22,7 @@ const router = new Router({
 						query.role = 'presenter';
 					next({
 						path:'/login',
-						name: 'Login',
+						name: 'login',
 						query: query
 					})
 				}else{

@@ -15,36 +15,42 @@
       <div class="chat-par">
         <div class="chat-concen-nav">
           <div class="chat-content">
-            <div class="chat-wedget" id="chatWedGet">
-              <div class="chat-content" id="chatContent">
-                <div
-                  v-for="(item, index) in chatList"
-                  :key="index"
-                  :class="{'chat-dialog-other':item.ISme == false,'chat-dialog-self':item.ISme == true}"
-                >
-                  <ul>
-                    <li class="click-other">
-                      <span class="span-other">
-                        <strong class="Message_type_teacher">{{item.userRole}}</strong>
-                        <strong class="Message_name">{{item.userName}}</strong>
-                        <strong class="Message_time">{{item.time}}</strong>
-                      </span>
-                    </li>
-                    <li>
-                      <div
-                        :class="{'chat-msg-other':item.ISme == false,'chat-msg-self':item.ISme == true}"
-                      >
-                        <span :v-if="item.IsTextChat" class="chat-msg" v-html="item.content"></span>
-                        <img
-                          class="chatimg"
-                          :v-if="!item.IsTextChat"
-                          :dataurl="item.imgSrcMax"
-                          :src="item.imgSrcMin"
-                          @click="enlargeImg(item.imgSrcMax)"
+            <div class="chat-wedget" v-loading="fullscreenLoading">
+              <div class="loading-box"  id="chatWedGet">
+                <div class="chat-content" id="chatContent">
+                  <div
+                    v-for="(item, index) in chatList"
+                    :key="index"
+                    :class="{'chat-dialog-other':item.ISme == false,'chat-dialog-self':item.ISme == true}"
+                  >
+                    <ul>
+                      <li class="click-other">
+                        <span class="span-other">
+                          <strong class="Message_type_teacher">{{item.userRole}}</strong>
+                          <strong class="Message_name">{{item.userName}}</strong>
+                          <strong class="Message_time">{{item.time}}</strong>
+                        </span>
+                      </li>
+                      <li>
+                        <div
+                          :class="{'chat-msg-other':item.ISme == false,'chat-msg-self':item.ISme == true}"
                         >
-                      </div>
-                    </li>
-                  </ul>
+                          <span v-if="item.IsTextChat" class="chat-msg" v-html="item.content"></span>
+                          <el-image class="chatimg"
+                            v-if="!item.IsTextChat"
+                            :dataurl="item.imgSrcMax"
+                            :src="item.imgSrcMin"
+                            @click.native="enlargeImg(item.imgSrcMax)"
+                          >
+                            <div slot="placeholder" class="image-slot">
+                              加载中<span class="dot">...</span>
+                            </div>
+                          </el-image>
+
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -52,7 +58,7 @@
               <div class="chat-media">
                 <div class="faceChoice" id="faceChoice" @click="isIcon()"></div>
                 <div class="imgChoice ml10">
-                  <input class="img_file" id="img_file" type="file" @change="imgFile">
+                  <input class="img_file" id="img_file" ref="pathClear" type="file" @change="imgFile($event)">
                 </div>
               </div>
               <div class="chat-trigger clearfix">
@@ -84,19 +90,25 @@
         </div>
       </div>
     </div>
+    
+    <dialog-alert :file='file'></dialog-alert>
   </div>
 </template>
 
 <script>
 export default {
+  components: {
+    dialogAlert: () => import('./dialogImg'),//上传图片 放大图片
+  },
+  props: ["chatLog"],
   data() {
     return {
-      isShow: true,
+      fullscreenLoading:true,//loading 效果
       listinde: 0,
-      acIndex: 0,
+      acIndex: 0,//对应选项卡
       allow_chat:true,//是否禁言；
       list: ["聊天","问答", "成员"], //聊天选项卡,目前不需要，影藏状态
-      isShowIcon: false,
+      isShowIcon: false,//是否显示图标
       inputData: "",
       chatList: [], //聊天历史记录
       iconList: [
@@ -138,55 +150,40 @@ export default {
         { src: require("../../assets/img/em2/36.png") },
         { src: require("../../assets/img/em2/37.png") },
         { src: require("../../assets/img/em2/38.png") }
-      ] //聊天输入框文本
+      ], //聊天输入框文本
+      file:{
+        upData:true,
+        isshow:false,
+        imgsrc:'https://liveclass.csslcloud.net/chat/83F203DAC2468694/4D807DF85C5481FA9C33DC5901307461/SwDMkdjBBQ.png'
+      },//放大图片缩小图片数据；
     };
   },
-  watch: {
-    chatList(val) {
-      //执行滚动到底部的逻辑
-      this.$nextTick(function() {
-        var scrollchat = document.getElementById("chatWedGet");
-        scrollchat.scrollTop = scrollchat.scrollHeight;
-      });
-    }
-  },
-  // props:['chatList','iconList'],
   created() {
     let vue = this;
-    // document.addEventListener("click", e => {
-    //   if (event.target.id == "faceChoice") return;
-    //   if (!this.$refs.posimgbox.contains(e.target)) {
-    //     this.isShowIcon = false;
-    //   }
-    // });
+    document.addEventListener("click", e => {
+      if (event.target.id == "faceChoice") return;
+      if (!this.$refs.posimgbox.contains(e.target)) {
+        this.isShowIcon = false;
+      }
+    });
+    
+    /**
+    *  
+    *	收到聊天
+    */
+    rtc.on("chat_message", function(msg) {
+      const data = JSON.parse(msg);
+      if(data.msg.substring(0, 5) == '[img_'){
+        vue.ReceiveImgChat(data);
+      }else{
+        vue.showBackChatL(data);
+      }
 
-    var data = [{
-        time:'15:33',
-        role:10,
-        userName : "tom",
-        content:'3333333333333',   
-      },{
-        time:'15:33',
-        role:11,
-        userName : "tony",
-        content:'3333333333333',   
-      },];
-    // var data = {"userid":"b7612b3e1f4d404b998aed429334f51e","username":"111","userrole":"presenter","useravatar":"","msg":"rrrrrrrrrrrrr ","time":"23:44:11","message_from":"class","status":"0","chatId":"5CB83D37071F14049C33DC5901307461_b7612b3e1f4d404b998aed429334f51e_1556898251719"};
-    this.showBackChatL(data[0]);
-    this.showBackChatL(data[1]);
-    // this.rtc.on("chatLogdata", function(data) {
-    //   //监听到 获取聊天历史数据
-    //   vue.chatList = []; //清空聊天数据
-    //   for(let i=0;i<data.length;i++){
-    //     if(data[i].content.substring(0, 5) == '[img_'){
-    //       vue.ReceiveImgChat(data[i]);
-    //     }else{
-    //       vue.showBackChatL(data[i]);
-    //     }
-    //   }
-    // });
+      
+    });
   },
   methods: {
+    //切换选项卡
     goto(index) {
       // this.listinde = document.querySelectorAll(".active")[0].getAttribute("listinde");
       this.acIndex = index;
@@ -201,47 +198,29 @@ export default {
       this.inputData += emstr;
     },
     isIcon() {
+      
       //显示图标
       this.isShowIcon = !this.isShowIcon;
     },
-    chatData(data) {
-      let vue = this;
-      vue.chatData = data;
-      // console.log(data,'聊天相关数据')
-    },
     showBackChatL: function(data) {
-      //收到最新时间，显示对应的聊天数据
-      let vue = this;
-      const datalist = this.chatData;
-      
-      // console.log(Nowtime,'聊天组件收到时间')
-      console.log(data)
-      // 计算消息发送时间
-      // let sumTime= new Date(startTime + Number(datalist[i].time)*1000);
-      // let getMinute = sumTime.getMinutes()<10?'0'+sumTime.getMinutes():sumTime.getMinutes();
-      // let gethoustime = sumTime.getHours() + ":" + getMinute;
       var datalistL = {};
-      datalistL.time = data.time;
+      datalistL.time = data.time.substr(0,5);
       datalistL.userName = data.userName;
       // 计算人员身份
-      if (data.role == 10) {
+      if (data.userrole == "presenter") {
         datalistL.userRole = "老师";
-        datalistL.ISme = true;
       } else {
         datalistL.userRole = "学生";
+      }
+      datalistL.content = this.ExtData(data.msg);
+      // 判断 是否 是自己发出的消息
+      if(data.userid == rtc.viewerid){
+        datalistL.ISme = true;
+      }else{
         datalistL.ISme = false;
       }
-      datalistL.content = vue.ExtData(data.content);
-
-      // 判断 是否 是自己发出的消息
-
-      // if(datalist[i].userId == joinData.encryptUserId){
-      //   datalist[i].ISme = true;
-      // }else{
-      // datalistL.ISme = false;
-      // }
-
-      vue.chatList.push(datalistL);
+      datalistL.IsTextChat = true; //是否为文本消息
+      this.chatList.push(datalistL);
         
       
     },
@@ -295,27 +274,29 @@ export default {
     SendChat: function() {
       //发送聊天
       var msg = this.inputData;
-      if ($.trim(msg) != "") {
+      if (msg.trim() != "") {
         var nmsg = "";
-        $.each(msg.split(" "), function(i, n) {
+        var arr = msg.split(" ");
+        for(var i=0; i<arr.length;i++){
+          var n = arr[i];
           var ur = /^(https?|s?ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i;
           if (ur.test(n)) {
             nmsg += "[uri_" + n + "] ";
           } else {
             nmsg += n + " ";
           }
-        });
-        this.rtc.sendMsg(nmsg);
+        }
+        
+        rtc.sendMsg(nmsg);
         this.inputData = "";
       }
     },
     ExtData: function(str) {
-      // console.log('tag', str)
+      
       var er = str.match(/\[em2_([0-9]*)\]/g);
       if (er) {
         for (var i in er) {
           var ind = str.indexOf(er[i]);
-
           var indlen = Number(str.substr(ind + 5, 2)) - 1;
           str = str.replace(
             str.substr(ind, 8),
@@ -349,31 +330,11 @@ export default {
           nmsg += n + " ";
         }
       }
-
-      // $.each(str.split(" "), function(i, n) {
-      //   n = $.trim(n);
-      //   if (
-      //     n.indexOf("[uri_") == 0 &&
-      //     n.indexOf("]") == n.length - 1 &&
-      //     n.length > 6
-      //   ) {
-      //     var u = n.substring(5, n.length - 1) + " ";
-      //     nmsg +=
-      //       '<a target="_blank" class="a-href"  href="' +
-      //       u +
-      //       '">' +
-      //       u +
-      //       "</a>" +
-      //       " ";
-      //   } else {
-      //     nmsg += n + " ";
-      //   }
-      // });
-      // console.log(nmsg)
+      
       return nmsg;
     },
-    imgFile: function() {
-      var file_list = $("#img_file")[0].files;
+    imgFile: function(event) {
+      var file_list = event.target.files;
 
       if (file_list.length == 0) {
         alert("请选择文件");
@@ -386,21 +347,69 @@ export default {
         alert("仅支持上传图片");
         return;
       }
+      
       var fileData = file;
       fileData.upData = true; //区分是上传图片 还是放大图片
       fileData.imgsrc = window.URL.createObjectURL(file);
-      this.$emit("openFileImg", fileData);
+      fileData.isshow = true;
+      this.file = file;
 
-      $("#img_file").val(null);
+      this.$refs.pathClear.value ='';
     },
     enlargeImg: function(src) {
+      alert(3333333)
       //放大图片
       var file = {};
       file.imgsrc = src;
       file.upData = false; //区分是上传图片 还是放大图片
-      this.$emit("openFileImg", file);
+      file.isshow = true;
+      this.file = file;
     }
-  }
+  },
+  mounted() {
+    //模板编译挂在之后  在这发起后端请求，拿回数据，配合路由钩子做一些事情
+    
+  },
+  computed:{
+
+  },
+  watch: {
+    //监听到 获取聊天历史数据
+    chatLog() {
+      if(this.chatLog.length==0){
+        this.fullscreenLoading = false
+      }
+      for(let i=0;i<this.chatLog.length;i++){
+        let chatLogI = this.chatLog[i];
+            chatLogI.msg = chatLogI.content;
+        
+        // 计算消息发送时间
+        let sumTime= new Date(Number(rtc.startTime) + Number(chatLogI.time)*1000);
+        let getMinute = sumTime.getMinutes()<10?'0'+sumTime.getMinutes():sumTime.getMinutes();
+        let gethoustime = sumTime.getHours() + ":" + getMinute+':00';
+        
+          chatLogI.time = gethoustime;
+          
+          if(chatLogI.role==10){
+            chatLogI.userrole = 'presenter'
+          }
+        chatLogI.userid = chatLogI.userId;  
+        if(this.chatLog[i].msg.substring(0, 5) == '[img_'){
+          this.ReceiveImgChat(this.chatLog[i]);
+        }else{
+          this.showBackChatL(this.chatLog[i]);
+        }
+      }
+    },
+    //执行滚动到底部的逻辑
+    chatList(val) {
+      this.$nextTick(function() {
+        var scrollchat = document.getElementById("chatWedGet");
+        scrollchat.scrollTop = scrollchat.scrollHeight;
+        this.fullscreenLoading = false;
+      });
+    }
+  },
 };
 </script>
 
@@ -442,6 +451,11 @@ export default {
 .slide-trans-old-leave-active {
   transition: all 0.5s;
   transform: translateX(-300px);
+}
+.loading-box{
+  width: 100%;
+  height: 100%;
+  overflow: auto;
 }
 .slide-show {
   margin: 0;
@@ -492,7 +506,7 @@ export default {
 }
 .chat-concen-nav > div {
   height: 100%;
-  width: 280px;
+  width: 250px;
   float: left;
 }
 .chat-concen-nav > div:nth-child(1) {
@@ -578,13 +592,6 @@ export default {
 .chat-media {
   padding: 10px 0;
 }
-.img_file {
-  opacity: 0;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  cursor: pointer;
-}
 .chat-dialog-other {
     text-align: left;
     clear: both;
@@ -615,16 +622,35 @@ export default {
     width: 20px;
     height: 17px;
     display: inline-block;
+    cursor: pointer;
 }
 .ml10 {
     margin-left: 10px;
 }
 .imgChoice {
-    background-position: -395px -123px;
+  overflow: hidden;
+  padding: 0;
+  margin: 0 0 0 10px;
+  border: 0;
+  background-position: -395px -123px;
+  cursor: pointer;
 }
 .imgChoice:hover {
     background-position: -395px -155px;
     cursor: pointer;
+}
+.img_file {
+  position: relative;
+  opacity: 10;
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  top: -20px;
+  font-size: 0;
+  margin: -10px 0 0 0;
+  padding: 0;
+  border: 0;
 }
 .chat-content ul{
   padding:0;
@@ -666,6 +692,9 @@ export default {
     border-top-right-radius:0; 
     margin-bottom: 15px;
     text-align: left;
+}
+.chat-msg-self .el-image{
+  cursor: pointer;
 }
 .chat-msg-self .chat-msg{
     color: #fff;

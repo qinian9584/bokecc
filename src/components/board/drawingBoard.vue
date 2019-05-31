@@ -1,5 +1,5 @@
 <template>
-  <div id="mainBorad" :class="{'main-board':true,'f-left':false,'effectFull':false}">
+  <div id="mainBorad" :class="{'main-board':true,'f-left':false,'effectFull':false}" v-loading="fullscreenLoading">
     <div class="canvas-draw">
       <!--画板区域-->
       <div id="draw-parent">
@@ -23,32 +23,41 @@ export default {
   // props: ["chan"],
   data() {
     return {
+      fullscreenLoading: true,//loading 效果
       Percentage: "100%", //画板大小比例
       add: true, //放大按钮是否开启
-      reduce: true //缩小按钮是否开启
+      reduce: true, //缩小按钮是否开启
     };
   },
+  methods: {
+    loginSuccessfully:function(){
+      // 登录成功
+      var canvasInitData = {
+          allowDraw: true,
+          id: 'draw-parent',
+          pptDisplay: 0,   // 默认0，按窗口  1， 按宽度
+      };
+      const status = this.$store.state.room.liveStatus
+      if(status === 1){
+          canvasInitData.liveId = status;
+      }
+      // 初始化画板
+      rtc.canvasInit(canvasInitData);
+
+      this.fullscreenLoading = false//清除loading
+      
+      // 讲师端获取所有已上传文档
+      // 获取房间内所有文档
+    },
+    enlarge: function() {},
+    narrow: function() {},
+    effectFull: function() {}
+  },
   mounted() {
+    let vue = this;
     // 监听登陆成功
     rtc.on('login_success', function (data) {
-        // 登录成功
-        console.log(data,'登录成功------------------');
-
-        var canvasInitData = {
-            allowDraw: true,
-            id: 'draw-parent',
-            pptDisplay: 0,   // 默认0，按窗口  1， 按宽度
-        };
-
-        if(data.live.status === 1){
-            canvasInitData.liveId = data.live.id;
-        }
-
-        // 初始化画板
-        rtc.canvasInit(canvasInitData);
-
-        // 讲师端获取所有已上传文档
-        // 获取房间内所有文档
+        
     });
   },
   watch: {
@@ -65,13 +74,11 @@ export default {
       // 	this.add = true;
       // 	this.reduce =true;
       // }
+    },
+    '$store.state.loginSuccessfully':function(){
+      this.loginSuccessfully()
     }
   },
-  methods: {
-    enlarge: function() {},
-    narrow: function() {},
-    effectFull: function() {}
-  }
 };
 </script>
 
@@ -154,6 +161,7 @@ export default {
   width: 100%;
   opacity: 1;
   transition: all 0.5s ease;
+  z-index: 1999;
 }
 #draw-parent {
   height: 100%;
