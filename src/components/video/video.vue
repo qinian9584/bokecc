@@ -1,5 +1,5 @@
 <template>
-    <div class="video-position" >
+    <div class="video-position">
         <div class="video-wedget" :id=videodata.id>
           <!-- 直播视频模块 -->
           
@@ -28,7 +28,24 @@ export default {
   },
   methods: {
     
-  }
+  },
+  updated: function () {
+      console.group('updated 更新完成状态===========================================================================》');
+      this.videodata.stream.show(this.videodata.id)
+      
+      
+  },
+  beforeDestroy:function(){
+    //  console.group(this.videodata.id,'beforeDestroy 销毁前状态===============》');
+     
+  },
+  computed: {
+    // 计算属性的
+    videodataid:function(){
+     const videoid = 's'+this.videodata.id;
+      return videoid
+    }
+  },
 }
 </script>
 

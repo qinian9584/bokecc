@@ -50,7 +50,7 @@
           </div>
           <!-- 设备检查 -->
           <div class="menu-box setpadding">
-            <el-button type="primary" size="mini">
+            <el-button type="primary" size="mini" @click="demo">
               <svg class="icon svg-icon" aria-hidden="true">
                 <use xlink:href="#iconjiance"></use>
               </svg>
@@ -93,7 +93,7 @@
             <div v-if="$store.state.room.liveStatus === 0">
               <el-button type="primary" size="mini" class="backgorund-FF9502" @click="startLive">
                 <svg class="icon svg-icon" aria-hidden="true">
-                  <use xlink:href="#icongongjuxiang"></use>
+                  <use xlink:href="#iconshangke"></use>
                 </svg>
                 <span>上课</span>
               </el-button>
@@ -107,9 +107,9 @@
               </el-button>
             </div>
             <div v-else-if="$store.state.room.liveStatus === 1">
-              <el-button type="primary" size="mini" class="backgorund-FF9502" @click="stopLive">
+              <el-button type="primary" size="mini" class="backgorund-EC422F" @click="stopLive">
                 <svg class="icon svg-icon" aria-hidden="true">
-                  <use xlink:href="#icongongjuxiang"></use>
+                  <use xlink:href="#iconxiake"></use>
                 </svg>
                 <span>{{$store.state.room.liveStartTime}}</span>
               </el-button>
@@ -192,7 +192,8 @@ export default {
   },
   methods: {
     demo() {
-      
+      this.talkervideo.splice(0,1);
+
     },
 
     //增加视频
@@ -204,7 +205,7 @@ export default {
           component: videoWebget,
           data: {
             stream,
-            id
+            id:'s'+id
           }
         }
       )
@@ -251,9 +252,13 @@ export default {
       handler: function(val, oldVal) {
         const length = val.length;
         if(length>=2){
-          if(!this.studentPositionFixd) this.studentPositionFixd = true;
+          if(!this.studentPositionFixd) {
+            this.studentPositionFixd = true;
+          }
         }else{
-          if(this.studentPositionFixd) this.studentPositionFixd = false;
+          if(this.studentPositionFixd) {
+            this.studentPositionFixd = false;
+          }
         }
         
       },

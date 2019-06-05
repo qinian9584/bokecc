@@ -15,8 +15,8 @@ function sdkListen(vue) {
     rtc.on('login_success', function (data) {
         // 登录成功
         console.log(data,data.live.status,'登录成功------------------');
+        document.title = data.name;
         vue.$store.commit('loginSuccessfully', true)//是否登录成功
-
         let time = (data.live.status)?(data.live.last):0;//已经直播时长
         vue.$store.dispatch('setLiveStatus',{'status':data.live.status,'time':time});//修改直播状态
         
@@ -133,9 +133,7 @@ function sdkListen(vue) {
     // 删除显示该流用的界面dom
     rtc.on('stream_removed', function (stream) {
         const streamkeys = 'streamId_'+stream.id();
-        // vue.$set(vue.talkervideo,streamkeys, {})
-
-        // delete vue.talkervideo[streamkeys]
+        
         for(let i in vue.talkervideo){
             if(vue.talkervideo[i].streamkeys==streamkeys){
                 vue.talkervideo.splice(i,1);

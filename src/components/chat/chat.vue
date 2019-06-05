@@ -357,7 +357,6 @@ export default {
       this.$refs.pathClear.value ='';
     },
     enlargeImg: function(src) {
-      alert(3333333)
       //放大图片
       var file = {};
       file.imgsrc = src;
@@ -417,10 +416,9 @@ export default {
 .main-right {
     flex: 1;
     width: 100%;
-    background: #fff;
     overflow: hidden;
-    border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
+    
 }
 ::-webkit-scrollbar-track-piece {
   width: 0px;
@@ -493,8 +491,6 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
-  border-bottom-left-radius: 6px;
-  border-bottom-right-radius: 6px;
 }
 .chat-concen-nav {
   width: 300%;
@@ -510,7 +506,7 @@ export default {
   float: left;
 }
 .chat-concen-nav > div:nth-child(1) {
-  background-color: #f5f5f5;
+  background:rgba(0,0,0,0.6);
 }
 .chat-concen-nav > div:nth-child(2) {
   background: rgb(155, 153, 153);
@@ -525,13 +521,14 @@ export default {
 }
 .chat-wedget {
   flex: 1;
-  width: 100%;
+  padding: 10px;
   overflow: auto;
 }
 .chat-send {
-  width: 100%;
   height: 85px;
   position: relative;
+  padding:0 10px 10px 10px;
+  background: rgba(0, 0, 0, 0.7);
 }
 .chat-send .posimg {
   position: absolute;
@@ -571,7 +568,7 @@ export default {
   margin: 0;
   padding: 0;
   width: 200px;
-  border: 1px solid #ddd;
+  border: 1px solid rgba(255,255,254,0.1);
   height: 38px;
   min-height: 38px;
   max-height: 38px;
@@ -579,15 +576,24 @@ export default {
   resize: none;
   border-top-left-radius: 2px;
   border-bottom-left-radius: 2px;
+  background:rgba(255,255,254,0.1);
+  border-right:none; 
+  color:#fff;
 }
 .chat-trigger .chat-send-btn {
     height: 40px;
-    background: #f27c19;
+    background:rgba(0,0,0,0.2);
     color: #fff;
     border: none;
     cursor: pointer;
     border-top-right-radius: 2px;
     border-bottom-right-radius: 2px;
+    border: 1px solid rgba(255,255,254,0.1);
+    border-left:none; 
+}
+.chat-trigger .chat-send-btn:focus{
+  border: 1px solid rgba(255,255,254,0.1);
+  outline:none;
 }
 .chat-media {
   padding: 10px 0;
@@ -598,7 +604,7 @@ export default {
     overflow: hidden;
 }
 .chat-content {
-    padding: 10px;
+    padding: 0px;
     font-size: 12px;
 
 }
@@ -710,7 +716,7 @@ export default {
 }
 
 .Message_name{
-    color: #333333;
+    color: #fff;
 }
 .Message_time{
     color: #BBBBBB;

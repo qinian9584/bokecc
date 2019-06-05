@@ -5,12 +5,112 @@
       <div id="draw-parent">
         <!-- 文档控制条，用户可自定义 -->
         <div class="canvas-control">
+          <div class="canvas-control-el">
+            <!-- 移动工具 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconyidonggongju"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 画笔 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconhuabi"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 多边形工具 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconduobianxinggongju"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 橡皮擦 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconxiangpica"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 激光笔 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconjiguangbi"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 文本 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconwenzigongju"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 荧光笔 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconyingguangbi"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 撤销 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconchexiao"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 删除 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconshanchu"></use>
+                  </svg>
+              </el-button>
+            </div>
+          </div>
           <div class="canvas-control-el mr15">
-            <div class="fullScreen" @click="effectFull"></div>
-            <div class="splitLine"></div>
-            <div class="add" v-show="add" @click="enlarge"></div>
+            <!-- 全屏 --> 
+            <div class="menu-box" @click="effectFull">
+              <!-- 缩小 -->
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconwendangsuoxiaonor"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 百分比 -->
             <div class="scale effect-zoom">{{Percentage}}</div>
-            <div class="reduce" v-show="reduce" @click="narrow"></div>
+            <!-- 放大 -->
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconwendangfangdanor"></use>
+                  </svg>
+              </el-button>
+            </div>
+            <!-- 分界线 --> 
+            <div class="splitLine"></div>
+            <!-- 全屏 --> 
+            <div class="menu-box" @click="effectFull">
+              <el-button type="primary" size="mini">
+                  <svg class="icon svg-icon" aria-hidden="true">
+                    <use xlink:href="#iconwendangquanping"></use>
+                  </svg>
+              </el-button>
+            </div>
+            
+            
           </div>
         </div>
       </div>
@@ -82,7 +182,7 @@ export default {
 };
 </script>
 
-<style>
+<style scope lang="scss">
 #draw-box::-webkit-scrollbar {
   width: 10px;
   height: 10px;
@@ -163,60 +263,7 @@ export default {
   transition: all 0.5s ease;
   z-index: 1999;
 }
-#draw-parent {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: #ccc;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-.canvas-control {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 30px;
-  width: 100%;
-  background: #c5c5be;
-}
 
-#draw-box {
-  position: absolute;
-  top: 0;
-  bottom: 30px;
-  left: 0;
-  width: 100%;
-  overflow: auto;
-  box-sizing: border-box;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-}
-#draw {
-  background: #fff;
-  display: block;
-  margin: 0 auto;
-  position: relative;
-  z-index: 999999;
-  overflow: hidden;
-}
-#draw-board {
-  display: block;
-  margin: 0 auto;
-  position: relative;
-  z-index: 99999;
-}
-#draw iframe {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 998;
-}
 .effectFull {
   z-index: 151;
 }
@@ -229,44 +276,17 @@ export default {
 .mr15 {
   margin-right: 15px;
 }
-.canvas-control-el .add {
-  background-image: url(../../assets/img/index/classicon.png);
-  background-repeat: no-repeat;
-  background-position: -455px -8px;
-  width: 19px;
-  height: 20px;
-  cursor: pointer;
-}
-.canvas-control-el .add:hover {
-  background-image: url(../../assets/img/index/classicon.png);
-  background-repeat: no-repeat;
-  background-position: -455px -45px;
-  width: 19px;
-  height: 20px;
-}
-.canvas-control-el .reduce {
-  background-image: url(../../assets/img/index/classicon.png);
-  background-repeat: no-repeat;
-  background-position: -416px -8px;
-  width: 19px;
-  height: 20px;
-  cursor: pointer;
-}
-.canvas-control-el .reduce:hover {
-  background-image: url(../../assets/img/index/classicon.png);
-  background-repeat: no-repeat;
-  background-position: -416px -45px;
-  width: 19px;
-  height: 20px;
-}
 .canvas-control-el .scale {
   line-height: 30px;
   font-size: 14px;
+  color: #fff;
+}
+.canvas-control-el .icon{
+  color: #fff;
+  font-size: 20px;
+  height: 20px;
 }
 .canvas-control-el .fullScreen {
-  background-image: url(../../assets/img/index/classicon.png);
-  background-repeat: no-repeat;
-  background-position: -496px -8px;
   width: 19px;
   height: 23px;
   cursor: pointer;
@@ -274,11 +294,38 @@ export default {
 .canvas-control-el .splitLine {
   width: 1px;
   background: #b5abab;
-  height: 15px;
-  margin-top: 7px;
+  height: 16px;
 }
 .canvas-control-el div {
-  margin-left: 10px;
+  margin-left: 5px;
   float: right;
+}
+.canvas-control {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background:rgba(0,0,0,0.7);
+  
+  .canvas-control-el{
+    display: flex;
+    align-items: center;
+  }
+
+  .menu-box{
+    .el-button{
+      padding: 7px;
+      background: transparent;
+      border: 0;
+      svg{
+        height: 16px;
+        width: 16px;
+      }
+    }
+  }
 }
 </style>
