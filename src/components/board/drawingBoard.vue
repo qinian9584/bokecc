@@ -47,7 +47,7 @@
               </el-button>
             </div>
             <!-- 文本 -->
-            <div class="menu-box" @click="effectFull">
+            <div class="menu-box" @click="drawChange(5)">
               <el-button type="primary" size="mini">
                   <svg class="icon svg-icon" aria-hidden="true">
                     <use xlink:href="#iconwenzigongju"></use>
@@ -148,6 +148,17 @@ export default {
       
       // 讲师端获取所有已上传文档
       // 获取房间内所有文档
+    },
+    //画笔变更
+    drawChange(type){
+      var drawData = {
+        action: 'type',
+        value: {
+          'type':type
+        }
+      };
+      // 调用更改画笔接口
+      rtc.drawChange(drawData);
     },
     enlarge: function() {},
     narrow: function() {},

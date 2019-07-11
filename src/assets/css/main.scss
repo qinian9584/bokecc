@@ -276,7 +276,8 @@ html,body{
   position: relative;
   z-index: 999999;
   overflow: hidden;
-  background:rgba(43,43,43,0.8);
+  background: #fff;
+//   background:rgba(43,43,43,0.8);
 }
 #draw-board {
   display: block;
