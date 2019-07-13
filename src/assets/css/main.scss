@@ -180,7 +180,6 @@ html,body{
     z-index: 1;
     margin:30px 35px 20px 35px;
     box-sizing: border-box;
-    z-index: 998;
     transition: all .6s ease;
 }
 .right-box{
@@ -274,7 +273,6 @@ html,body{
   display: block;
   margin: 0 auto;
   position: relative;
-  z-index: 999999;
   overflow: hidden;
   background: #fff;
 //   background:rgba(43,43,43,0.8);
@@ -283,7 +281,6 @@ html,body{
   display: block;
   margin: 0 auto;
   position: relative;
-  z-index: 99999;
 }
 #draw iframe {
   width: 100%;
@@ -291,5 +288,4 @@ html,body{
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 998;
 }

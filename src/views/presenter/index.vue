@@ -111,7 +111,7 @@
                 <svg class="icon svg-icon" aria-hidden="true">
                   <use xlink:href="#iconxiake"></use>
                 </svg>
-                <span>{{$store.state.room.liveStartTime}}</span>
+                <span>{{liveStartTime}}</span>
               </el-button>
             </div>
           </div>
@@ -149,14 +149,17 @@
         <online-chat ref="chat" :chatLog="chatLog"></online-chat>
       </div>
     </div>
+
+    <!-- 花名册 -->
+    <roster></roster>
   </div>
 </template>
 
 <script>
 //组件
-import bradingBoard from "../../components/board/drawingBoard";
-import onlineChat  from "../../components/chat/chat";
-import videoWebget from "../../components/video/video";
+import bradingBoard from "../../components/board/drawingBoard";// 白板
+import onlineChat  from "../../components/chat/chat";//聊天
+import videoWebget from "../../components/video/video";//视频
 
 //js
 import { sdkListen } from "./sdkListen.js"; //用于监听sdk回调
@@ -164,10 +167,12 @@ export default {
   name: "presenter",
   components: {
     bradingBoard, //白板组件
-    onlineChat //聊天组件
+    onlineChat, //聊天组件
+    roster:() => import('../../components/alive/roster'),//花名册
   },
   data() {
     return {
+      liveStartTime:0,//格式化后的 时间
       studentPositionFixd:false,//切换学生视频，摆放位置（是否在左下角）
       presentervideo: [], //老师视频
       talkervideo: [], //学生视频
@@ -193,7 +198,6 @@ export default {
   methods: {
     demo() {
       this.talkervideo.splice(0,1);
-
     },
 
     //增加视频
@@ -264,6 +268,22 @@ export default {
       },
       deep: true
     },
+    //监听到直播状态发生变化时
+    '$store.state.room.liveStatus':function(state){
+      let vue = this;
+      if(state == 1) {
+        clearInterval(intval)
+        let time = this.$store.state.room.liveStartTime;
+        this.liveStartTime = timeFormat(time);
+        let intval = setInterval(function () {
+          if (vue.$store.state.room.liveStatus !== 1) {
+            clearInterval(intval)
+          }
+          time++;
+          vue.liveStartTime = timeFormat(time);
+        }, 1000)
+      }
+    }
   },
 };
 </script>

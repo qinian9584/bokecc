@@ -1,11 +1,27 @@
 export default {
-  login: {
+  login: {//登录页
     login:'登录',
     Classroom: '云课堂',
     language: '中文',
     upushFlowNode:'推流节点：',
     username:'请输入昵称',
     password:'请输入密码',
+  },
+  roster:{//花名册
+    roster:'花名册',
+    clickReward:'一键奖励',
+    allSilence:'全体静音',
+    wholeWheat:'全体下麦',
+    userName:'用户名称',
+    Trophy:'奖杯',
+    camera:'摄像头',
+    audio:'麦克风',
+    videoCall:'连麦',
+    allowDrawing:'授权标注',
+    setTeacher:'设为讲师',
+    noChat:'禁言',
+    shiftOut:'踢出',
+    P:'人',
   }, 
   singleton:{
     Catalog:'目录',

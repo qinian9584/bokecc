@@ -19,8 +19,8 @@ const router = new Router({
 			path: '/presenter',
 			name: 'presenter',
 			component: () => import('@/views/presenter/index'),
-			 beforeEnter: (to, from, next) => {
-				 const token = getCookie('token_presenter');
+			beforeEnter: (to, from, next) => {
+				const token = getCookie('token_presenter');
 				//  console.log('routerbofore',token)				
 				if(!token){
 					let query = to.query;

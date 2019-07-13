@@ -3,15 +3,16 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 const state = { //要设置的全局访问的state对象	
 	loginSuccessfully:false,//是否登录成功
-	//人员信息 房间信息
+	//房间信息
 	room: {
 		role: null,
 		userid: null,
 		roomid: null,
 		liveStatus: 2, //0:直播未开始；1：直播进行中；2：正在开启直播中	
-		liveStartTime: 0,
+		liveStartTime: 0,//直播开始时间
 	},
-
+	//人员列表
+	personnelList:[]
 
 };
 const getters = { //实时监听state值的变化(最新状态)
@@ -56,7 +57,19 @@ const mutations = {//自定义改变state初始值的方法，这里面的参数
 	startTime(state, n) {
 		state.room.liveStartTime = n
 	},
-
+	
+	// 当有人员上下麦或人员进出房间时会收到该事件
+	online_users(state,data){
+		console.log('------------------------------------------------------------------------')
+		console.log(data);
+		state.personnelList = data;
+	},
+	//单独个人配置项监听 
+	setpersonnelList(data){
+		console.log('------------------------------------------------------------------------')
+		console.log(data);
+		
+	}
 
 };
 const actions = {//自定义触发mutations里函数的方法，context与store 实例具有相同方法和属性
@@ -78,23 +91,9 @@ const actions = {//自定义触发mutations里函数的方法，context与store 
 		} else {
 			state = data.status;
 			time = data.time;
-		}
-
+		}	
 		context.commit('liveStatus', state)
-
-		if (state == 1) {
-			let data = parseInt(time) / 1000;
-			context.commit('startTime', timeFormat(data))
-			const intval = setInterval(function () {
-				if (context.state.room.liveStatus !== 1) {
-					clearInterval(intval)
-				}
-				data++;
-				context.commit('startTime', timeFormat(data))
-
-			}, 1000)
-		}
-
+		context.commit('startTime', parseInt(time) / 1000)		
 	},
 
 };
