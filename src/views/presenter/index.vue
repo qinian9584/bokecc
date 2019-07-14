@@ -26,7 +26,7 @@
 
           <!-- 花名册 -->
           <div class="menu-box">
-            <el-button type="primary" size="mini">
+            <el-button type="primary" size="mini" @click="$store.state.roster.isShow=true">
               <svg class="icon svg-icon" aria-hidden="true">
                 <use xlink:href="#iconhuamingce"></use>
               </svg>
@@ -151,7 +151,10 @@
     </div>
 
     <!-- 花名册 -->
-    <roster></roster>
+    <transition>
+        <roster v-if="$store.state.roster.isShow"></roster>
+    </transition>
+    
   </div>
 </template>
 
@@ -290,5 +293,22 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+  // /*v-enter 是进入之前，元素的起始状态*/
+  // /*v-leave-to 离开之后动画的终止状态*/
+  // .v-enter,.v-leave-to{
+  //     opacity:  0;/*透明度*/
+  // }
+  //   /*入场(离场)动画的时间段   */
+  // .v-enter-active,.v-leave-active{
+  //     transition: all 0.8s ease;
+
+  // }
+  // .my-enter,.my-leave-to{
+  //     opacity:  0;/*透明度*/
+  // }
+  // .my-enter-active,.my-leave-active{
+  //     transition: all 0.8s ease;
+
+  // }
 // @import "../../assets/css/main.scss";
 </style>

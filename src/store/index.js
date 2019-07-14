@@ -9,7 +9,12 @@ const state = { //要设置的全局访问的state对象
 		userid: null,
 		roomid: null,
 		liveStatus: 2, //0:直播未开始；1：直播进行中；2：正在开启直播中	
-		liveStartTime: 0,//直播开始时间
+		liveStartTime: 0,//直播开始时间，计时器开始位置
+		personnelNumber:0,//房间人数
+	},
+	//花名册
+	roster:{
+		isShow:false,//是否显示
 	},
 	//人员列表
 	personnelList:[]
@@ -60,9 +65,10 @@ const mutations = {//自定义改变state初始值的方法，这里面的参数
 	
 	// 当有人员上下麦或人员进出房间时会收到该事件
 	online_users(state,data){
-		console.log('------------------------------------------------------------------------')
+		console.log(data.length,'------------------------------------------------------------------------')
 		console.log(data);
 		state.personnelList = data;
+		state.room.personnelNumber = data.length;
 	},
 	//单独个人配置项监听 
 	setpersonnelList(data){

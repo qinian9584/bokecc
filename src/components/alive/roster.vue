@@ -4,12 +4,12 @@
       <div class="top">
         <div class="left">
           <span class="weight">{{$t("roster.roster")}}</span>
-          <span>20</span>
+          <span>{{$store.state.room.personnelNumber}}</span>
           <span>{{$t("roster.P")}}</span>
         </div>
        
         <div class="right">
-          <el-button size="mini">
+          <el-button size="mini"  @click="$store.state.roster.isShow=false">
             <svg class="icon svg-icon" aria-hidden="true">
               <use xlink:href="#iconguanbi"></use>
             </svg>
@@ -80,7 +80,8 @@
 
         <!-- 表体 -->
         <div class="tab-body">
-          <ul v-for="(item,index) in personnelList" :key="index" v-show="item.isShow">
+          <transition-group>
+          <ul class="ulline" v-for="(item) in personnelList" :key="item.id" v-show="item.isShow">
             <!-- 用户名称 -->
             <li>
               <!-- 用户角色 -->
@@ -220,6 +221,7 @@
               </el-button>
             </li>
           </ul>
+          </transition-group>
         </div>
       </div>
     </div>
@@ -235,38 +237,18 @@ export default {
   data() {
     return {
       search:'',//搜索内容
-      tableData: [{
-        role:'talker',
-        name: '王小虎',
-        platform:'5',//5为pc端
-        allow_video:true,
-        allow_audio:true,
-        status:3,//在麦上
-        allow_draw:true,//授权标注
-        allow_assistant:true,//设为讲师
-        allow_chat:true,//禁言
-      },
-      {
-        role:'talker',
-        name: '王小虎222',
-        platform:'5',//5为pc端
-        allow_video:false,
-        allow_audio:false,
-        status:3,//在麦上
-        allow_draw:false,//授权标注
-        allow_assistant:true,//设为讲师
-        allow_chat:true,//禁言
-      },{
-        role:'talker',
-        name: '王小虎333',
-        platform:'5',//5为pc端
-        allow_video:false,
-        allow_audio:false,
-        status:2,//在麦上
-        allow_draw:false,//授权标注
-        allow_assistant:false,//设为讲师
-        allow_chat:false,//禁言
-      }
+      tableData: [
+        // {
+        //   role:'talker',
+        //   name: '王小虎',
+        //   platform:'5',//5为pc端
+        //   allow_video:true,
+        //   allow_audio:true,
+        //   status:3,//在麦上
+        //   allow_draw:true,//授权标注
+        //   allow_assistant:true,//设为讲师
+        //   allow_chat:true,//禁言
+        // },
       ]
     };
   },
@@ -285,37 +267,42 @@ export default {
     
   },
   computed:{
+    //用户列表
     personnelList(){
       let data = this.$store.state.personnelList;
       let vue = this;
       let arr = [];
-      
+      const search = vue.search;
       data.forEach(function(item, index, array) {
+        // 搜索框为空 或者name存在时  才显示
+        if((item.length <= 0)||(item.name.includes(search))){
+          item.isShow = true
+        }else{
+          item.isShow = false
+        };
         if(item.role=="presenter"){
           arr.unshift(item)
         }else{
           arr.push(item)
-        }         　　　　
-      });
+        };        　　　　
+      });     
       return arr;
+      
     } 
   },
   watch: {
-    //监听到直播状态发生变化时
-    // '$store.state.personnelList':function(data){
-    //   let vue = this;
-    //   let arr = [];
-      
-    //   data.forEach(function(item, index, array) {
-    //     item.isShow = true;
-    //     if(item.role=="presenter"){
-    //       arr.unshift(item)
-    //     }else{
-    //       arr.push(item)
-    //     }         　　　　
-    //   });
-    //   vue.tableData = arr;
-    // },
+    //监听到输入框
+    'search':function(val){        
+      let personnelList = this.personnelList;
+      personnelList.forEach(function(item, index, array) {
+        //搜索框为空 或者name存在时  才显示
+        if((item.length <= 0)||(item.name.includes(val))){
+          item.isShow = true
+        }else{
+          item.isShow = false
+        }         　　　　
+      });
+    },
   },
 };
 </script>
@@ -468,11 +455,11 @@ export default {
         .tab-body{
           flex: 1;
           overflow-y:scroll;  
-          >ul{
+          .ulline{
             display: flex; 
             height: 40px;
             width: 100%;
-            
+            overflow: hidden;
             >li:first-child{
               width: 200px;
               flex: none;
@@ -531,7 +518,7 @@ export default {
               
             }
           }
-          >ul:hover{
+          .ulline:hover{
             background: #f9f9f9;
           }
         }
@@ -563,4 +550,22 @@ export default {
   .roster-box .content .personnelList .tab-body > ul .noChat .el-button.videoCall .icon.off{
     color: #999;
   }
+  /*v-enter 是进入之前，元素的起始状态*/
+  /*v-leave-to 离开之后动画的终止状态*/
+  .v-enter,.v-leave-to{
+      opacity:  0;/*透明度*/
+  }
+    /*入场(离场)动画的时间段   */
+  .v-enter-active,.v-leave-active{
+      transition: all 0.8s ease;
+
+  }
+  .my-enter,.my-leave-to{
+      opacity:  0;/*透明度*/
+  }
+  .my-enter-active,.my-leave-active{
+      transition: all 0.8s ease;
+
+  }
+  
 </style>

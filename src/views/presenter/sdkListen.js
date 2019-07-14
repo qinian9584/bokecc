@@ -172,7 +172,6 @@ function sdkListen(vue) {
                 item.allow_video = true;
                 item.hand_up = false;
             }
-            item.isShow = true;
             return item;
         });
 
